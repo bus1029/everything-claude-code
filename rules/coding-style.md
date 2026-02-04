@@ -4,20 +4,15 @@
 
 ALWAYS create new objects, NEVER mutate:
 
-```javascript
-// WRONG: Mutation
-function updateUser(user, name) {
-  user.name = name  // MUTATION!
-  return user
-}
+```python
+# WRONG: Mutation
+def update_user(user: dict, name: str) -> dict:
+    user["name"] = name  # MUTATION!
+    return user
 
-// CORRECT: Immutability
-function updateUser(user, name) {
-  return {
-    ...user,
-    name
-  }
-}
+# CORRECT: Immutability
+def update_user(user: dict, name: str) -> dict:
+    return {**user, "name": name}
 ```
 
 ## File Organization
@@ -25,36 +20,39 @@ function updateUser(user, name) {
 MANY SMALL FILES > FEW LARGE FILES:
 - High cohesion, low coupling
 - 200-400 lines typical, 800 max
-- Extract utilities from large components
+- Extract utilities from large modules
 - Organize by feature/domain, not by type
 
 ## Error Handling
 
 ALWAYS handle errors comprehensively:
 
-```typescript
-try {
-  const result = await riskyOperation()
-  return result
-} catch (error) {
-  console.error('Operation failed:', error)
-  throw new Error('Detailed user-friendly message')
-}
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+def risky_operation() -> str:
+    try:
+        result = do_work()
+        return result
+    except SpecificError as e:
+        logger.exception("Operation failed")
+        raise UserFacingError("Detailed user-friendly message") from e
 ```
 
 ## Input Validation
 
 ALWAYS validate user input:
 
-```typescript
-import { z } from 'zod'
+```python
+from pydantic import BaseModel, EmailStr, Field
 
-const schema = z.object({
-  email: z.string().email(),
-  age: z.number().int().min(0).max(150)
-})
+class InputModel(BaseModel):
+    email: EmailStr
+    age: int = Field(ge=0, le=150)
 
-const validated = schema.parse(input)
+validated = InputModel.model_validate(input_dict)
 ```
 
 ## Code Quality Checklist
@@ -65,6 +63,6 @@ Before marking work complete:
 - [ ] Files are focused (<800 lines)
 - [ ] No deep nesting (>4 levels)
 - [ ] Proper error handling
-- [ ] No console.log statements
+- [ ] No print() debug statements (use logging)
 - [ ] No hardcoded values
 - [ ] No mutation (immutable patterns used)

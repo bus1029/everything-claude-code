@@ -2,10 +2,13 @@
 
 ## Minimum Test Coverage: 80%
 
-Test Types (ALL required):
-1. **Unit Tests** - Individual functions, utilities, components
-2. **Integration Tests** - API endpoints, database operations
-3. **E2E Tests** - Critical user flows (Playwright)
+Test Types:
+
+- **Required**
+  1. **Unit Tests** - Individual functions, utilities, components
+  2. **Integration Tests** - API endpoints, database operations
+- **When appropriate (product/service dependent)**
+  - **E2E Tests** - Cover critical user flows (Playwright or equivalent for your stack)
 
 ## Test-Driven Development
 
@@ -19,12 +22,17 @@ MANDATORY workflow:
 
 ## Troubleshooting Test Failures
 
-1. Use **tdd-guide** agent
+1. Use **tdd-guide** subagent
 2. Check test isolation
 3. Verify mocks are correct
 4. Fix implementation, not tests (unless tests are wrong)
 
-## Agent Support
+## Subagent Support
 
 - **tdd-guide** - Use PROACTIVELY for new features, enforces write-tests-first
-- **e2e-runner** - Playwright E2E testing specialist
+- **e2e-runner** - E2E testing specialist (commonly Playwright). Note: currently disabled in `~/.cursor/agents` (file is `.not_used`).
+
+## Python Notes (if applicable)
+
+- Prefer `pytest` for unit/integration tests
+- Measure coverage with `coverage.py` / `pytest-cov`

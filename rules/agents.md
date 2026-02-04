@@ -1,47 +1,54 @@
-# Agent Orchestration
+# Agent Orchestration (Cursor)
 
-## Available Agents
+## Available Subagents (Global)
 
-Located in `~/.claude/agents/`:
+Located in `~/.cursor/agents/`:
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
+| Subagent | Purpose | When to Use |
+|---------|---------|-------------|
 | planner | Implementation planning | Complex features, refactoring |
 | architect | System design | Architectural decisions |
 | tdd-guide | Test-driven development | New features, bug fixes |
 | code-reviewer | Code review | After writing code |
-| security-reviewer | Security analysis | Before commits |
-| build-error-resolver | Fix build errors | When build fails |
-| e2e-runner | E2E testing | Critical user flows |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation | Updating docs |
+| database-reviewer | Database review | Query/schema review, performance checks |
+| python-reviewer | Python code review | Python changes, PEP 8, security, performance |
 
-## Immediate Agent Usage
+## Disabled / Not Used (present but not active)
+
+These exist but are currently disabled (e.g., `.not_used`):
+
+| Subagent | Purpose | Note |
+|---------|---------|------|
+| security-reviewer | Security analysis | Disabled |
+| e2e-runner | E2E testing | Disabled |
+| refactor-cleaner | Dead code cleanup | Disabled |
+
+## Removed (not in ~/.cursor/agents)
+
+These were removed from this list because they are not present in `~/.cursor/agents/`:
+
+- build-error-resolver
+- doc-updater
+
+## Immediate Subagent Usage
 
 No user prompt needed:
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Architectural decision - Use **architect** agent
+1. Complex feature requests -> Use **planner**
+2. Code just written/modified -> Use **code-reviewer**
+3. Bug fix or new feature -> Use **tdd-guide**
+4. Architectural decision -> Use **architect**
+5. Database-related changes -> Use **database-reviewer**
+6. Python changes -> Use **python-reviewer**
 
 ## Parallel Task Execution
 
-ALWAYS use parallel Task execution for independent operations:
-
-```markdown
-# GOOD: Parallel execution
-Launch 3 agents in parallel:
-1. Agent 1: Security analysis of auth.ts
-2. Agent 2: Performance review of cache system
-3. Agent 3: Type checking of utils.ts
-
-# BAD: Sequential when unnecessary
-First agent 1, then agent 2, then agent 3
-```
+Always use parallel subagents for independent operations:
+- Good: Run security analysis, performance review, and type checks in parallel
+- Bad: Run them sequentially when unnecessary
 
 ## Multi-Perspective Analysis
 
-For complex problems, use split role sub-agents:
+For complex problems, use split role subagents:
 - Factual reviewer
 - Senior engineer
 - Security expert

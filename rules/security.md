@@ -14,23 +14,23 @@ Before ANY commit:
 
 ## Secret Management
 
-```typescript
-// NEVER: Hardcoded secrets
-const apiKey = "sk-proj-xxxxx"
+```python
+import os
 
-// ALWAYS: Environment variables
-const apiKey = process.env.OPENAI_API_KEY
+# NEVER: Hardcoded secrets
+# api_key = "sk-proj-xxxxx"
 
-if (!apiKey) {
-  throw new Error('OPENAI_API_KEY not configured')
-}
+# ALWAYS: Environment variables
+api_key = os.environ.get("OPENAI_API_KEY")
+if not api_key:
+    raise RuntimeError("OPENAI_API_KEY not configured")
 ```
 
 ## Security Response Protocol
 
 If security issue found:
 1. STOP immediately
-2. Use **security-reviewer** agent
+2. Use **security-reviewer** subagent (if enabled). If not available, use **code-reviewer** and **architect** to assess impact and remediation.
 3. Fix CRITICAL issues before continuing
 4. Rotate any exposed secrets
 5. Review entire codebase for similar issues
