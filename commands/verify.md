@@ -10,9 +10,13 @@ Execute verification in this exact order:
    - Run the build command for this project
    - If it fails, report errors and STOP
 
-2. **Type Check**
-   - Run TypeScript/type checker
+2. **Static / Type Check (if applicable)**
+   - Run the project's static analysis and/or type checker (only if the project has one)
    - Report all errors with file:line
+   - Examples:
+     - TypeScript: `tsc --noEmit`
+     - Python: `ruff check .` and `mypy .`
+     - Go: `go vet ./...`
 
 3. **Lint Check**
    - Run linter
@@ -23,11 +27,15 @@ Execute verification in this exact order:
    - Report pass/fail count
    - Report coverage percentage
 
-5. **Console.log Audit**
-   - Search for console.log in source files
+5. **Secrets Check**
+   - Scan modified files for likely secrets (API keys, tokens, passwords)
+   - Report any findings with file:line and redacted previews
+
+6. **Debug Log Audit (if applicable)**
+   - Search for debug logs in source files (e.g. `console.log`, `print`, `logger.debug`)
    - Report locations
 
-6. **Git Status**
+7. **Git Status**
    - Show uncommitted changes
    - Show files modified since last commit
 
@@ -39,7 +47,7 @@ Produce a concise verification report:
 VERIFICATION: [PASS/FAIL]
 
 Build:    [OK/FAIL]
-Types:    [OK/X errors]
+Static:   [OK/X errors]
 Lint:     [OK/X issues]
 Tests:    [X/Y passed, Z% coverage]
 Secrets:  [OK/X found]
@@ -53,7 +61,7 @@ If any critical issues, list them with fix suggestions.
 ## Arguments
 
 $ARGUMENTS can be:
-- `quick` - Only build + types
+- `quick` - Only build + static/type checks (if applicable)
 - `full` - All checks (default)
 - `pre-commit` - Checks relevant for commits
 - `pre-pr` - Full checks plus security scan

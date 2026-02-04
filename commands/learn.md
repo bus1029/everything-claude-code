@@ -1,6 +1,6 @@
 # /learn - Extract Reusable Patterns
 
-Analyze the current session and extract any patterns worth saving as skills.
+Analyze the current session and extract any patterns worth saving as Cursor skills.
 
 ## Trigger
 
@@ -33,9 +33,21 @@ Look for:
 
 ## Output Format
 
-Create a skill file at `~/.claude/skills/learned/[pattern-name].md`:
+Create a skill directory and `SKILL.md`.
+
+Recommended (project-local, versionable):
+- `.cursor/skills/learned-[pattern-name]/SKILL.md`
+
+Alternative (personal, available across projects):
+- `~/.cursor/skills/learned-[pattern-name]/SKILL.md`
 
 ```markdown
+---
+name: learned-[pattern-name]
+description: [What this skill does]. Use when [trigger scenario].
+disable-model-invocation: true
+---
+
 # [Descriptive Pattern Name]
 
 **Extracted:** [Date]
@@ -58,9 +70,9 @@ Create a skill file at `~/.claude/skills/learned/[pattern-name].md`:
 
 1. Review the session for extractable patterns
 2. Identify the most valuable/reusable insight
-3. Draft the skill file
+3. Draft the skill `SKILL.md`
 4. Ask user to confirm before saving
-5. Save to `~/.claude/skills/learned/`
+5. Save to `.cursor/skills/` (project-local) or `~/.cursor/skills/` (personal)
 
 ## Notes
 

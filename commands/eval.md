@@ -12,7 +12,7 @@ Manage eval-driven development workflow.
 
 Create a new eval definition:
 
-1. Create `.claude/evals/feature-name.md` with template:
+1. Create `.cursor/evals/feature-name.md` (project-local) with template:
 
 ```markdown
 ## EVAL: feature-name
@@ -39,11 +39,11 @@ Created: $(date)
 
 Run evals for a feature:
 
-1. Read eval definition from `.claude/evals/feature-name.md`
+1. Read eval definition from `.cursor/evals/feature-name.md`
 2. For each capability eval:
    - Attempt to verify criterion
    - Record PASS/FAIL
-   - Log attempt in `.claude/evals/feature-name.log`
+   - Log attempt in `.cursor/evals/feature-name.log`
 3. For each regression eval:
    - Run relevant tests
    - Compare against baseline
@@ -118,3 +118,8 @@ $ARGUMENTS:
 - `report <name>` - Generate full report
 - `list` - Show all evals
 - `clean` - Remove old eval logs (keeps last 10 runs)
+
+## Notes
+
+- The eval workflow is procedural: metrics like `pass@3` require repeated attempts and consistent logging.
+- Store eval definitions and logs in `.cursor/evals/` so they are versionable per project and do not depend on external tooling.

@@ -6,23 +6,23 @@ allowed_tools: ["Bash", "Read", "Write", "Grep", "Glob"]
 
 # /skill-create - Local Skill Generation
 
-Analyze your repository's git history to extract coding patterns and generate SKILL.md files that teach Claude your team's practices.
+Analyze your repository's git history to extract coding patterns and generate Cursor skill files (`SKILL.md`).
 
 ## Usage
 
 ```bash
 /skill-create                    # Analyze current repo
 /skill-create --commits 100      # Analyze last 100 commits
-/skill-create --output ./skills  # Custom output directory
-/skill-create --instincts        # Also generate instincts for continuous-learning-v2
+/skill-create --output .cursor/skills  # Custom output directory (recommended default)
+/skill-create --instincts        # Optional: generate "instincts" (repo-specific, not a standard Cursor feature)
 ```
 
 ## What It Does
 
 1. **Parses Git History** - Analyzes commits, file changes, and patterns
 2. **Detects Patterns** - Identifies recurring workflows and conventions
-3. **Generates SKILL.md** - Creates valid Claude Code skill files
-4. **Optionally Creates Instincts** - For the continuous-learning-v2 system
+3. **Generates SKILL.md** - Creates Cursor skill files (directory + `SKILL.md`)
+4. **Optionally Creates Instincts** - For repo-specific continuous-learning workflows (if used)
 
 ## Analysis Steps
 
@@ -53,7 +53,17 @@ Look for these pattern types:
 
 ### Step 3: Generate SKILL.md
 
-Output format:
+Cursor skills are directories that contain a `SKILL.md` file.
+
+Recommended output location (project-local, versionable):
+- `.cursor/skills/{repo-name}-patterns/SKILL.md`
+
+Alternative output location (personal, available across projects):
+- `~/.cursor/skills/{repo-name}-patterns/SKILL.md`
+
+Do NOT create anything in `~/.cursor/skills-cursor/`. That directory is reserved for Cursor's built-in skills and managed automatically.
+
+Output format (`SKILL.md`):
 
 ```markdown
 ---
@@ -81,7 +91,7 @@ analyzed_commits: {count}
 
 ### Step 4: Generate Instincts (if --instincts)
 
-For continuous-learning-v2 integration:
+This is optional and repo-specific. If your workflow does not use "instincts", skip this step.
 
 ```yaml
 ---
@@ -104,7 +114,7 @@ Prefix commits with: feat:, fix:, chore:, docs:, test:, refactor:
 
 ## Example Output
 
-Running `/skill-create` on a TypeScript project might produce:
+Running `/skill-create` on a TypeScript project might produce (example only; adapt to your stack):
 
 ```markdown
 ---
@@ -167,7 +177,7 @@ For advanced features (10k+ commits, team sharing, auto-PRs), use the [Skill Cre
 
 - `/instinct-import` - Import generated instincts
 - `/instinct-status` - View learned instincts
-- `/evolve` - Cluster instincts into skills/agents
+- `/evolve` - Cluster instincts into skills/commands/subagents (if using instincts)
 
 ---
 

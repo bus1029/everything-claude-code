@@ -4,7 +4,7 @@ description: Enforce test-driven development workflow. Scaffold interfaces, gene
 
 # TDD Command
 
-This command invokes the **tdd-guide** agent to enforce test-driven development methodology.
+This command invokes the **tdd-guide** subagent to enforce test-driven development methodology.
 
 ## What This Command Does
 
@@ -25,7 +25,7 @@ Use `/tdd` when:
 
 ## How It Works
 
-The tdd-guide agent will:
+The tdd-guide subagent will:
 
 1. **Define interfaces** for inputs/outputs
 2. **Write tests that will FAIL** (because code doesn't exist yet)
@@ -51,7 +51,7 @@ REPEAT:   Next feature/scenario
 ```
 User: /tdd I need a function to calculate market liquidity score
 
-Agent (tdd-guide):
+Subagent (tdd-guide):
 # TDD Session: Market Liquidity Score Calculator
 
 ## Step 1: Define Interface (SCAFFOLD)
@@ -133,7 +133,7 @@ FAIL lib/liquidity.test.ts
 1 test failed, 0 passed
 ```
 
-✅ Tests fail as expected. Ready to implement.
+Tests fail as expected. Ready to implement.
 
 ## Step 4: Implement Minimal Code (GREEN)
 
@@ -179,7 +179,7 @@ PASS lib/liquidity.test.ts
 3 tests passed
 ```
 
-✅ All tests passing!
+All tests passing.
 
 ## Step 6: Refactor (IMPROVE)
 
@@ -236,7 +236,7 @@ PASS lib/liquidity.test.ts
 3 tests passed
 ```
 
-✅ Refactoring complete, tests still passing!
+Refactoring complete, tests still passing.
 
 ## Step 8: Check Coverage
 
@@ -247,29 +247,29 @@ File           | % Stmts | % Branch | % Funcs | % Lines
 ---------------|---------|----------|---------|--------
 liquidity.ts   |   100   |   100    |   100   |   100
 
-Coverage: 100% ✅ (Target: 80%)
+Coverage: 100% (Target: 80%)
 ```
 
-✅ TDD session complete!
+TDD session complete.
 ```
 
 ## TDD Best Practices
 
 **DO:**
-- ✅ Write the test FIRST, before any implementation
-- ✅ Run tests and verify they FAIL before implementing
-- ✅ Write minimal code to make tests pass
-- ✅ Refactor only after tests are green
-- ✅ Add edge cases and error scenarios
-- ✅ Aim for 80%+ coverage (100% for critical code)
+- Write the test FIRST, before any implementation
+- Run tests and verify they FAIL before implementing
+- Write minimal code to make tests pass
+- Refactor only after tests are green
+- Add edge cases and error scenarios
+- Aim for 80%+ coverage (100% for critical code)
 
 **DON'T:**
-- ❌ Write implementation before tests
-- ❌ Skip running tests after each change
-- ❌ Write too much code at once
-- ❌ Ignore failing tests
-- ❌ Test implementation details (test behavior)
-- ❌ Mock everything (prefer integration tests)
+- Write implementation before tests
+- Skip running tests after each change
+- Write too much code at once
+- Ignore failing tests
+- Test implementation details (test behavior)
+- Mock everything (prefer integration tests)
 
 ## Test Types to Include
 
@@ -313,14 +313,13 @@ Never skip the RED phase. Never write code before tests.
 
 - Use `/plan` first to understand what to build
 - Use `/tdd` to implement with tests
-- Use `/build-and-fix` if build errors occur
+- Use `/build-fix` if build errors occur
 - Use `/code-review` to review implementation
 - Use `/test-coverage` to verify coverage
 
-## Related Agents
+## Related Subagents
 
-This command invokes the `tdd-guide` agent located at:
-`~/.claude/agents/tdd-guide.md`
+This command invokes the `tdd-guide` subagent (Cursor global) located at:
+`~/.cursor/agents/tdd-guide.md`
 
-And can reference the `tdd-workflow` skill at:
-`~/.claude/skills/tdd-workflow/`
+If you have additional TDD guidance installed, keep it aligned with your Cursor Rules (e.g. `rules/testing.md`).

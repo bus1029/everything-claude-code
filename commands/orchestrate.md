@@ -1,6 +1,6 @@
 # Orchestrate Command
 
-Sequential agent workflow for complex tasks.
+Sequential subagent workflow for complex tasks.
 
 ## Usage
 
@@ -11,13 +11,15 @@ Sequential agent workflow for complex tasks.
 ### feature
 Full feature implementation workflow:
 ```
-planner -> tdd-guide -> code-reviewer -> security-reviewer
+planner -> tdd-guide -> code-reviewer
 ```
+Note:
+- `security-reviewer` is often disabled in Cursor setups (e.g. `.not_used`). If enabled and the work involves auth/payment/PII, run it after `code-reviewer`.
 
 ### bugfix
 Bug investigation and fix workflow:
 ```
-explorer -> tdd-guide -> code-reviewer
+explore -> tdd-guide -> code-reviewer
 ```
 
 ### refactor
@@ -29,24 +31,26 @@ architect -> code-reviewer -> tdd-guide
 ### security
 Security-focused review:
 ```
-security-reviewer -> code-reviewer -> architect
+code-reviewer -> architect
 ```
+Note:
+- If `security-reviewer` is available/enabled, run: `security-reviewer -> code-reviewer -> architect`.
 
 ## Execution Pattern
 
-For each agent in the workflow:
+For each subagent in the workflow:
 
-1. **Invoke agent** with context from previous agent
+1. **Invoke subagent** with context from previous subagent
 2. **Collect output** as structured handoff document
-3. **Pass to next agent** in chain
+3. **Pass to next subagent** in chain
 4. **Aggregate results** into final report
 
 ## Handoff Document Format
 
-Between agents, create handoff document:
+Between subagents, create handoff document:
 
 ```markdown
-## HANDOFF: [previous-agent] -> [next-agent]
+## HANDOFF: [previous-subagent] -> [next-subagent]
 
 ### Context
 [Summary of what was done]
@@ -58,7 +62,7 @@ Between agents, create handoff document:
 [List of files touched]
 
 ### Open Questions
-[Unresolved items for next agent]
+[Unresolved items for next subagent]
 
 ### Recommendations
 [Suggested next steps]
@@ -72,28 +76,26 @@ Between agents, create handoff document:
 
 Executes:
 
-1. **Planner Agent**
+1. **Planner Subagent**
    - Analyzes requirements
    - Creates implementation plan
    - Identifies dependencies
    - Output: `HANDOFF: planner -> tdd-guide`
 
-2. **TDD Guide Agent**
+2. **TDD Guide Subagent**
    - Reads planner handoff
    - Writes tests first
    - Implements to pass tests
    - Output: `HANDOFF: tdd-guide -> code-reviewer`
 
-3. **Code Reviewer Agent**
+3. **Code Reviewer Subagent**
    - Reviews implementation
    - Checks for issues
    - Suggests improvements
-   - Output: `HANDOFF: code-reviewer -> security-reviewer`
+   - Output: `HANDOFF: code-reviewer -> (optional) security-reviewer`
 
-4. **Security Reviewer Agent**
-   - Security audit
-   - Vulnerability check
-   - Final approval
+4. **(Optional) Security Reviewer Subagent**
+   - Only if available/enabled and the change is security-sensitive (auth/payment/PII)
    - Output: Final Report
 
 ## Final Report Format
@@ -103,14 +105,14 @@ ORCHESTRATION REPORT
 ====================
 Workflow: feature
 Task: Add user authentication
-Agents: planner -> tdd-guide -> code-reviewer -> security-reviewer
+Subagents: planner -> tdd-guide -> code-reviewer -> (optional) security-reviewer
 
 SUMMARY
 -------
 [One paragraph summary]
 
-AGENT OUTPUTS
--------------
+SUBAGENT OUTPUTS
+----------------
 Planner: [summary]
 TDD Guide: [summary]
 Code Reviewer: [summary]
@@ -135,13 +137,13 @@ RECOMMENDATION
 
 ## Parallel Execution
 
-For independent checks, run agents in parallel:
+For independent checks, run subagents in parallel:
 
 ```markdown
 ### Parallel Phase
 Run simultaneously:
 - code-reviewer (quality)
-- security-reviewer (security)
+- security-reviewer (security, optional if enabled)
 - architect (design)
 
 ### Merge Results
@@ -155,7 +157,7 @@ $ARGUMENTS:
 - `bugfix <description>` - Bug fix workflow
 - `refactor <description>` - Refactoring workflow
 - `security <description>` - Security review workflow
-- `custom <agents> <description>` - Custom agent sequence
+- `custom <subagents> <description>` - Custom subagent sequence
 
 ## Custom Workflow Example
 
@@ -168,5 +170,5 @@ $ARGUMENTS:
 1. **Start with planner** for complex features
 2. **Always include code-reviewer** before merge
 3. **Use security-reviewer** for auth/payment/PII
-4. **Keep handoffs concise** - focus on what next agent needs
-5. **Run verification** between agents if needed
+4. **Keep handoffs concise** - focus on what next subagent needs
+5. **Run verification** between subagents if needed

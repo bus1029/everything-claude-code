@@ -12,10 +12,11 @@ When creating a checkpoint:
 
 1. Run `/verify quick` to ensure current state is clean
 2. Create a git stash or commit with checkpoint name
-3. Log checkpoint to `.claude/checkpoints.log`:
+3. Log checkpoint to `.cursor/checkpoints.log` (project-local):
 
 ```bash
-echo "$(date +%Y-%m-%d-%H:%M) | $CHECKPOINT_NAME | $(git rev-parse --short HEAD)" >> .claude/checkpoints.log
+mkdir -p .cursor
+echo "$(date +%Y-%m-%d-%H:%M) | $CHECKPOINT_NAME | $(git rev-parse --short HEAD)" >> .cursor/checkpoints.log
 ```
 
 4. Report checkpoint created
@@ -30,6 +31,7 @@ When verifying against a checkpoint:
    - Files modified since checkpoint
    - Test pass rate now vs then
    - Coverage now vs then
+   - Build status now vs then (if applicable)
 
 3. Report:
 ```
