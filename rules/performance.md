@@ -1,17 +1,23 @@
 # Performance Optimization
 
+## Scope / Precedence
+
+- 이 문서는 **전역 Rules 기본값**이다.
+- 프로젝트에 별도의 성능/품질 규칙(모델 고정, 비용 한도, 로그 정책 등)이 있으면 **그 프로젝트 규칙이 우선**이다.
+
 ## Model Selection Strategy
 
-OpenAI 최신 모델(공식 Models 문서 기준: Latest **gpt-5.2**)을 역할별로 사용:
+원칙: 작업 성격에 따라 **비용/속도/정확도**를 균형 있게 선택한다.  
+아래 모델명은 **예시**이며, 실제로 선택 가능한 모델/ID는 **Cursor의 모델 선택 UI/설정**을 우선한다(시간이 지나면 이름이 바뀔 수 있음).
 
 - **Fast / low-cost model**:
-  - 권장: **gpt-5.2** (속도/품질 균형)
+  - 권장(예): **gpt-5.2** (속도/품질 균형)
   - 용도: 고빈도 subagent(탐색/요약/단순 변경), 로그/출력 많은 작업의 요약, 문서/리팩터링 보조
 - **Balanced coding model**:
-  - 권장: **gpt-5.2-codex-high** (범용 코딩/에이전틱 작업), 코딩 최적화가 필요하면 **gpt-5.2-codex-xhigh**
+  - 권장(예): **gpt-5.2-codex-high** (범용 코딩/에이전틱 작업), 코딩 최적화가 필요하면 **gpt-5.2-codex-xhigh**
   - 용도: 대부분의 구현 작업, 멀티 파일 변경, 일반적인 디버깅/리팩터링, subagent 오케스트레이션
 - **Deep reasoning / precision model**:
-  - 권장: **gpt-5.2-xhigh**
+  - 권장(예): **gpt-5.2-xhigh**
   - 용도: 아키텍처 결정, 복잡한 상호작용 디버깅, 인증/보안/마이그레이션처럼 실수 비용이 큰 변경
 
 ## Context Window Management

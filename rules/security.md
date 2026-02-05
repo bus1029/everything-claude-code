@@ -1,5 +1,11 @@
 # Security Guidelines
 
+## Scope / Precedence
+
+- 이 문서는 **전역 Rules 기본값**이다.
+- 프로젝트/조직의 보안 정책(예: 사고 대응, 취약점 공개, 로깅/마스킹, 키 관리, SAST/DAST, 승인 절차)이 있으면 **그 정책이 우선**이다.
+- 아래 체크리스트는 “기본 안전장치”이며, 프로젝트 성격에 따라 항목을 추가/강화한다.
+
 ## Mandatory Security Checks
 
 Before ANY commit:
@@ -13,6 +19,8 @@ Before ANY commit:
 - [ ] Error messages don't leak sensitive data
 
 ## Secret Management
+
+원칙: 시크릿은 **코드/문서/로그에 절대 포함하지 않는다**. 필요 시 예시는 항상 마스킹한다.
 
 ```python
 import os
