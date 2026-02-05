@@ -1,7 +1,7 @@
 ---
 tools: ["Read", "Grep", "Glob", "Bash"]
 name: code-reviewer
-model: gpt-5.2-xhigh
+model: gpt-5.2-codex-xhigh
 description: Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code. MUST BE USED for all code changes.
 ---
 
