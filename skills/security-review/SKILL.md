@@ -7,6 +7,16 @@ description: Use this skill when adding authentication, handling user input, wor
 
 This skill ensures all code follows security best practices and identifies potential vulnerabilities.
 
+## Quick Start (언어/스택 비종속)
+
+- **Secrets**: 시크릿은 코드/문서/로그에 절대 넣지 말고, 환경변수/시크릿 매니저로 주입한다.
+- **Input validation**: 외부 입력은 경계에서 스키마 기반으로 검증하고, 실패 시 사용자 메시지는 안전하게(과도한 내부 정보 노출 금지) 처리한다.
+- **AuthN/AuthZ**: 인증(로그인)과 인가(권한/소유권)를 분리하고, 민감 작업은 “인가 확인 → 실행” 순서를 고정한다.
+- **Data exposure**: 에러/로그에서 토큰·비밀번호·개인정보를 마스킹/제외한다.
+- **Rate limit**: 비용 큰 엔드포인트/브루트포스가 가능한 엔드포인트는 별도 제한을 둔다.
+
+> Note: 코드 예시는 이해를 돕기 위한 한 구현(TypeScript/Next.js 등)일 수 있다. 핵심은 “원칙/체크리스트”이며, 프로젝트 스택에 맞게 치환해서 적용한다.
+
 ## When to Activate
 
 - Implementing authentication or authorization

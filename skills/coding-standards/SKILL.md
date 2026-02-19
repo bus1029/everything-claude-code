@@ -1,11 +1,13 @@
 ---
 name: coding-standards
-description: Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.
+description: Universal coding standards and best practices. Examples may use TypeScript/JavaScript/React, but the principles are language- and stack-agnostic.
 ---
 
 # Coding Standards & Best Practices
 
 Universal coding standards applicable across all projects.
+
+> Note: Many examples below use TypeScript/JavaScript for concreteness. Treat them as **examples**, and translate the intent to your project's language/framework.
 
 ## Code Quality Principles
 
@@ -33,7 +35,9 @@ Universal coding standards applicable across all projects.
 - Add complexity only when required
 - Start simple, refactor when needed
 
-## TypeScript/JavaScript Standards
+## Language-Specific Examples (TypeScript/JavaScript)
+
+The principles above are language-agnostic. Use the examples below as one concrete mapping to TypeScript/JavaScript, and translate the intent to your project's language/idioms.
 
 ### Variable Naming
 
@@ -65,8 +69,10 @@ function email(e) { }
 
 ### Immutability Pattern (CRITICAL)
 
+Prefer returning **new values** over mutating existing state/objects in-place. If mutation is necessary for safety/performance, keep the mutation scope minimal and explain *why*.
+
 ```typescript
-// ✅ ALWAYS use spread operator
+// Example (TypeScript): create a new object/array
 const updatedUser = {
   ...user,
   name: 'New Name'
@@ -77,6 +83,12 @@ const updatedArray = [...items, newItem]
 // ❌ NEVER mutate directly
 user.name = 'New Name'  // BAD
 items.push(newItem)     // BAD
+```
+
+```python
+# Example (Python): return a new dict/list
+updated_user = {**user, "name": "New Name"}
+updated_items = [*items, new_item]
 ```
 
 ### Error Handling

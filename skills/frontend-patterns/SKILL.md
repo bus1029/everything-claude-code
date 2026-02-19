@@ -1,11 +1,13 @@
 ---
 name: frontend-patterns
-description: Frontend development patterns for React, Next.js, state management, performance optimization, and UI best practices.
+description: Frontend development patterns for component architecture, state management, performance optimization, and UI best practices. Examples may use React/Next.js/TypeScript, but the concepts are transferable.
 ---
 
 # Frontend Development Patterns
 
 Modern frontend patterns for React, Next.js, and performant user interfaces.
+
+> Note: Code snippets may use a specific framework (e.g., React/Next.js) for concreteness. Treat them as examples and translate the intent to your UI framework and language.
 
 ## Component Patterns
 

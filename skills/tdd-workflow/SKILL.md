@@ -1,11 +1,20 @@
 ---
 name: tdd-workflow
-description: Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, integration, and E2E tests.
+description: Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development (RED→GREEN→REFACTOR) with 80%+ coverage targets where measurable (unit/integration required; E2E when appropriate).
 ---
 
 # Test-Driven Development Workflow
 
 This skill ensures all code development follows TDD principles with comprehensive test coverage.
+
+## Quick Start (언어/스택 비종속)
+
+1. **RED**: 실패하는 테스트(또는 재현 가능한 검증)를 먼저 만든다.
+2. **GREEN**: 테스트를 통과시키는 최소 구현을 한다.
+3. **REFACTOR**: 중복 제거/가독성 개선/성능 개선을 하되, 테스트는 계속 초록색이어야 한다.
+4. **검증 루프**: “테스트 → 구현 → 리팩터링” 사이클을 작은 단위로 반복한다.
+
+> 아래의 코드/폴더 구조/도구(Jest, Playwright, Next.js 등)는 **예시**다. 실제 프로젝트의 언어/테스트 러너/프레임워크로 치환해서 적용한다.
 
 ## When to Activate
 
@@ -21,7 +30,7 @@ This skill ensures all code development follows TDD principles with comprehensiv
 ALWAYS write tests first, then implement code to make tests pass.
 
 ### 2. Coverage Requirements
-- Minimum 80% coverage (unit + integration + E2E)
+- Minimum 80% coverage target where measurable (unit + integration required; E2E when appropriate)
 - All edge cases covered
 - Error scenarios tested
 - Boundary conditions verified
@@ -40,11 +49,10 @@ ALWAYS write tests first, then implement code to make tests pass.
 - Service interactions
 - External API calls
 
-#### E2E Tests (Playwright)
-- Critical user flows
-- Complete workflows
-- Browser automation
-- UI interactions
+#### E2E Tests (해당 시)
+- Critical user flows (login/checkout/admin flows 등)
+- End-to-end workflows across multiple layers
+- UI interactions (browser automation tools are stack-dependent)
 
 ## TDD Workflow Steps
 

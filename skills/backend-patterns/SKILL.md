@@ -1,11 +1,13 @@
 ---
 name: backend-patterns
-description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.
+description: Backend architecture patterns, API design, database optimization, and server-side best practices. Examples may use Node.js/TypeScript/Next.js, but the patterns are transferable across stacks.
 ---
 
 # Backend Development Patterns
 
 Backend architecture patterns and best practices for scalable server-side applications.
+
+> Note: Code snippets may use a specific stack for concreteness (e.g., TypeScript/Next.js/Supabase). Treat them as examples and translate the intent to your project's language/framework/DB.
 
 ## API Design Patterns
 

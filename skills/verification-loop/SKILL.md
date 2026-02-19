@@ -1,6 +1,11 @@
+---
+name: verification-loop
+description: Comprehensive verification checklist for AI-assisted development sessions. Use after meaningful changes or before PRs to run build, type/static checks (if applicable), lint, tests, security scans, and diff review.
+---
+
 # Verification Loop Skill
 
-A comprehensive verification system for Claude Code sessions.
+A comprehensive verification system for AI-assisted development sessions.
 
 ## When to Use
 
@@ -59,12 +64,12 @@ Report:
 
 ### Phase 5: Security Scan
 ```bash
-# Check for secrets
-grep -rn "sk-" --include="*.ts" --include="*.js" . 2>/dev/null | head -10
-grep -rn "api_key" --include="*.ts" --include="*.js" . 2>/dev/null | head -10
+# Generic secret scan (tune patterns for your org)
+rg -n "(sk-|api[_-]?key|secret|token|password|private[_-]?key)" . | head -20
 
-# Check for console.log
-grep -rn "console.log" --include="*.ts" --include="*.tsx" src/ 2>/dev/null | head -10
+# Language/framework-specific examples (adjust globs/paths)
+rg -n "console\\.log" -g"*.ts" -g"*.tsx" -g"*.js" -g"*.jsx" . | head -10
+rg -n "print\\(" -g"*.py" . | head -10
 ```
 
 ### Phase 6: Diff Review

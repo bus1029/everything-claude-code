@@ -1,3 +1,8 @@
+---
+name: project-guidelines-example
+description: Example template for a project-specific skill. Use as a starting point to document architecture, file structure, patterns, testing requirements, and deployment workflow for a single project.
+---
+
 # Project Guidelines Skill (Example)
 
 This is an example of a project-specific skill. Use this as a template for your own projects.
@@ -19,11 +24,18 @@ Reference this skill when working on the specific project it's designed for. Pro
 
 ## Architecture Overview
 
+## Template Variables (replace for your project)
+
+- `<AI_PROVIDER>`: e.g., Claude / OpenAI / Gemini / self-hosted
+- `<MODEL_NAME>`: the specific model/version you use (if relevant)
+- `<DB_PROVIDER>`: e.g., Postgres / MySQL / Supabase / DynamoDB
+- `<DEPLOY_TARGET>`: e.g., Vercel / Cloud Run / Kubernetes
+
 **Tech Stack:**
 - **Frontend**: Next.js 15 (App Router), TypeScript, React
 - **Backend**: FastAPI (Python), Pydantic models
 - **Database**: Supabase (PostgreSQL)
-- **AI**: Claude API with tool calling and structured output
+- **AI**: <AI_PROVIDER> (Example: Claude) with tool calling and structured output
 - **Deployment**: Google Cloud Run
 - **Testing**: Playwright (E2E), pytest (backend), React Testing Library
 

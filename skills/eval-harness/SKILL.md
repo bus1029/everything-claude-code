@@ -1,12 +1,12 @@
 ---
 name: eval-harness
-description: Formal evaluation framework for Claude Code sessions implementing eval-driven development (EDD) principles
+description: Formal evaluation framework for AI-assisted development sessions implementing eval-driven development (EDD) principles
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
 # Eval Harness Skill
 
-A formal evaluation framework for Claude Code sessions, implementing eval-driven development (EDD) principles.
+A formal evaluation framework for AI-assisted development sessions, implementing eval-driven development (EDD) principles.
 
 ## Philosophy
 
@@ -19,10 +19,10 @@ Eval-Driven Development treats evals as the "unit tests of AI development":
 ## Eval Types
 
 ### Capability Evals
-Test if Claude can do something it couldn't before:
+Test if the assistant can do something it couldn't before:
 ```markdown
 [CAPABILITY EVAL: feature-name]
-Task: Description of what Claude should accomplish
+Task: Description of what the assistant should accomplish
 Success Criteria:
   - [ ] Criterion 1
   - [ ] Criterion 2
@@ -58,7 +58,7 @@ npm run build && echo "PASS" || echo "FAIL"
 ```
 
 ### 2. Model-Based Grader
-Use Claude to evaluate open-ended outputs:
+Use the assistant (model-based grader) to evaluate open-ended outputs:
 ```markdown
 [MODEL GRADER PROMPT]
 Evaluate the following code change:
@@ -159,7 +159,7 @@ Status: READY FOR REVIEW
 ```
 /eval define feature-name
 ```
-Creates eval definition file at `.claude/evals/feature-name.md`
+Creates eval definition file at `.cursor/evals/feature-name.md` (project-local)
 
 ### During Implementation
 ```
@@ -177,11 +177,11 @@ Generates full eval report
 
 Store evals in project:
 ```
-.claude/
+.cursor/
   evals/
     feature-xyz.md      # Eval definition
     feature-xyz.log     # Eval run history
-    baseline.json       # Regression baselines
+    baseline.json       # Regression baselines (optional)
 ```
 
 ## Best Practices
