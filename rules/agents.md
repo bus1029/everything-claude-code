@@ -56,3 +56,7 @@ For complex problems, use split role subagents:
 - Security expert
 - Consistency reviewer
 - Redundancy checker
+
+Pick roles based on task complexity and risk.
+
+<!-- End of file -->

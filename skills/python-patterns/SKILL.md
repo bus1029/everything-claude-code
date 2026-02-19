@@ -5,6 +5,8 @@ description: Pythonic idioms, PEP 8 standards, type hints, and best practices fo
 
 # Python Development Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Idiomatic Python patterns and best practices for building robust, efficient, and maintainable applications.
 
 ## When to Activate
@@ -544,7 +546,7 @@ from mypackage.utils import format_name
 # pip install isort
 ```
 
-### __init__.py for Package Exports
+### `__init__.py` for Package Exports
 
 ```python
 # mypackage/__init__.py
@@ -561,7 +563,7 @@ __all__ = ["User", "Post", "format_name"]
 
 ## Memory and Performance
 
-### Using __slots__ for Memory Efficiency
+### Using `__slots__` for Memory Efficiency
 
 ```python
 # Bad: Regular class uses __dict__ (more memory)
@@ -746,4 +748,4 @@ except SpecificError as e:
     logger.error(f"Operation failed: {e}")
 ```
 
-__Remember__: Python code should be readable, explicit, and follow the principle of least surprise. When in doubt, prioritize clarity over cleverness.
+**Remember**: Python code should be readable, explicit, and follow the principle of least surprise. When in doubt, prioritize clarity over cleverness.

@@ -5,6 +5,8 @@ description: Python testing strategies using pytest, TDD methodology, fixtures, 
 
 # Python Testing Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Comprehensive testing strategies for Python applications using pytest, TDD methodology, and best practices.
 
 ## When to Activate

@@ -5,6 +5,8 @@ description: Use this skill when adding authentication, handling user input, wor
 
 # Security Review Skill
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 This skill ensures all code follows security best practices and identifies potential vulnerabilities.
 
 ## Quick Start (언어/스택 비종속)

@@ -78,6 +78,7 @@ Common Cargo commands (standard):
 - `cargo fmt` - Format code
 
 ### Go (Makefile or go.mod)
+<!-- markdownlint-disable MD010 -->
 ```makefile
 .PHONY: dev test build
 
@@ -87,6 +88,7 @@ dev:
 test:
 	go test ./... -cover
 ```
+<!-- markdownlint-enable MD010 -->
 **Output**: `make dev`, `make test`, etc.
 
 If no Makefile, use standard Go commands:
@@ -185,13 +187,13 @@ Create language-specific contribution guide:
 
 | Command | Description |
 |---------|-------------|
-[Auto-generated from Step 2]
+| (auto-generated from Step 2) | (replace this placeholder) |
 
 ## Environment Variables
 
 | Variable | Purpose | Format | Required |
 |----------|---------|--------|----------|
-[Auto-generated from Step 3]
+| (auto-generated from Step 3) |  |  |  |
 
 ## Development Workflow
 

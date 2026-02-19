@@ -5,7 +5,9 @@ description: Frontend development patterns for component architecture, state man
 
 # Frontend Development Patterns
 
-Modern frontend patterns for React, Next.js, and performant user interfaces.
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
+Modern frontend patterns for building performant user interfaces (examples may use React/Next.js).
 
 > Note: Code snippets may use a specific framework (e.g., React/Next.js) for concreteness. Treat them as examples and translate the intent to your UI framework and language.
 

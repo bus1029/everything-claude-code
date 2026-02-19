@@ -5,6 +5,10 @@ description: Comprehensive verification checklist for AI-assisted development se
 
 # Verification Loop Skill
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+>
+> **Shell note**: Commands use Bash-style examples (e.g., `head`, `tail`). Adjust for your shell/OS (especially on Windows).
+
 A comprehensive verification system for AI-assisted development sessions.
 
 ## When to Use

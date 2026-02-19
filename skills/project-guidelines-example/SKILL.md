@@ -7,6 +7,8 @@ description: Example template for a project-specific skill. Use as a starting po
 
 This is an example of a project-specific skill. Use this as a template for your own projects.
 
+> **Example usage note**: This file is a template. Any stack/vendor/tool/code/path shown below is **one possible example**, not a requirement. Replace it with your project's choices. Any secret-like values are always placeholders.
+
 Based on a real production application: [Zenith](https://zenith.chat) - AI-powered customer discovery platform.
 
 ---
@@ -156,7 +158,7 @@ async function fetchApi<T>(
 }
 ```
 
-### Claude AI Integration (Structured Output)
+### (Example: Claude/Anthropic) AI Integration (Structured Output)
 
 ```python
 from anthropic import Anthropic

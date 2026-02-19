@@ -5,6 +5,8 @@ description: Pattern for progressively refining context retrieval to solve the s
 
 # Iterative Retrieval Pattern
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Solves the "context problem" in multi-agent workflows where subagents don't know what context they need until they start working.
 
 ## The Problem

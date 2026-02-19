@@ -5,6 +5,8 @@ description: Universal coding standards and best practices. Examples may use Typ
 
 # Coding Standards & Best Practices
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Universal coding standards applicable across all projects.
 
 > Note: Many examples below use TypeScript/JavaScript for concreteness. Treat them as **examples**, and translate the intent to your project's language/framework.

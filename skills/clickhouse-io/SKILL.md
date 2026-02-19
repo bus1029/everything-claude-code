@@ -5,6 +5,8 @@ description: ClickHouse database patterns, query optimization, analytics, and da
 
 # ClickHouse Analytics Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 ClickHouse-specific patterns for high-performance analytics and data engineering.
 
 ## Overview

@@ -5,6 +5,8 @@ description: Idiomatic Go patterns, best practices, and conventions for building
 
 # Go Development Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Idiomatic Go patterns and best practices for building robust, efficient, and maintainable applications.
 
 ## When to Activate

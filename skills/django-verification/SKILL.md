@@ -5,6 +5,8 @@ description: Verification loop for Django projects: migrations, linting, tests w
 
 # Django Verification Loop
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Run before PRs, after major changes, and pre-deploy to ensure Django application quality and security.
 
 ## Phase 1: Environment Check

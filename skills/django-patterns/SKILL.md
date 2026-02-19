@@ -5,6 +5,8 @@ description: Django architecture patterns, REST API design with DRF, ORM best pr
 
 # Django Development Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Production-grade Django architecture patterns for scalable, maintainable applications.
 
 ## When to Activate

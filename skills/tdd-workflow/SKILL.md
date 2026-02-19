@@ -5,6 +5,8 @@ description: Use this skill when writing new features, fixing bugs, or refactori
 
 # Test-Driven Development Workflow
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 This skill ensures all code development follows TDD principles with comprehensive test coverage.
 
 ## Quick Start (언어/스택 비종속)
@@ -123,9 +125,9 @@ npm run test:coverage
 # Verify 80%+ coverage achieved
 ```
 
-## Testing Patterns
+## Implementation Examples (Reference Only)
 
-### Unit Test Pattern (Jest/Vitest)
+### (Example: Jest/Vitest) Unit Test Pattern
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Button } from './Button'
@@ -152,7 +154,7 @@ describe('Button Component', () => {
 })
 ```
 
-### API Integration Test Pattern
+### (Example: Next.js route handler) API Integration Test Pattern
 ```typescript
 import { NextRequest } from 'next/server'
 import { GET } from './route'
@@ -183,7 +185,7 @@ describe('GET /api/markets', () => {
 })
 ```
 
-### E2E Test Pattern (Playwright)
+### (Example: Playwright) E2E Test Pattern
 ```typescript
 import { test, expect } from '@playwright/test'
 

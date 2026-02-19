@@ -5,6 +5,8 @@ description: JPA/Hibernate patterns for entity design, relationships, query opti
 
 # JPA/Hibernate Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Use for data modeling, repositories, and performance tuning in Spring Boot.
 
 ## Entity Design

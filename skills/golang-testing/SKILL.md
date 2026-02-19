@@ -5,6 +5,8 @@ description: Go testing patterns including table-driven tests, subtests, benchma
 
 # Go Testing Patterns
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Comprehensive Go testing patterns for writing reliable, maintainable tests following TDD methodology.
 
 ## When to Activate

@@ -5,6 +5,8 @@ description: Django testing strategies with pytest-django, TDD methodology, fact
 
 # Django Testing with TDD
 
+> **Example note**: Any code/commands/folder layout/tool/vendor names in this document may be **examples**, not requirements. If the skill name is stack-specific (e.g., `django-*`, `springboot-*`, `golang-*`, `python-*`, `java-*`, `postgres-*`, `clickhouse-*`, `jpa-*`), assume that stack — but still adapt versions and tooling to your project.
+
 Test-driven development for Django applications using pytest, factory_boy, and Django REST Framework.
 
 ## When to Activate
