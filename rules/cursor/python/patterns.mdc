@@ -1,11 +1,11 @@
 ---
-paths:
-  - "**/*.py"
-  - "**/*.pyi"
+description: Python 패턴(Protocol/DTO/dataclass/컨텍스트 매니저)
+globs: ["**/*.py", "**/*.pyi"]
+alwaysApply: false
 ---
 # Python Patterns
 
-> This file extends [common/patterns.md](../common/patterns.md) with Python specific content.
+> 참고: Cursor 규칙은 다른 문서를 “자동 상속/병합”하지 않습니다. 공통 패턴 규칙이 필요하면 `rules/common/patterns.md`를 별도 Cursor 규칙으로 옮기거나, 필요한 내용을 이 문서에 통합하세요.
 
 ## Protocol (Duck Typing)
 

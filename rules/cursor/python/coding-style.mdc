@@ -1,11 +1,11 @@
 ---
-paths:
-  - "**/*.py"
-  - "**/*.pyi"
+description: Python 코딩 스타일(PEP 8, 타입 힌트, 불변성, 포맷터/린터)
+globs: ["**/*.py", "**/*.pyi"]
+alwaysApply: false
 ---
 # Python Coding Style
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Python specific content.
+> 참고: Cursor 규칙은 다른 문서를 “자동 상속/병합”하지 않습니다. 공통 규칙이 필요하면 `rules/common/coding-style.md`를 별도 Cursor 규칙으로 옮기거나, 필요한 내용을 이 문서에 통합하세요.
 
 ## Standards
 

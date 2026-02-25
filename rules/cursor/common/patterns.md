@@ -1,3 +1,7 @@
+---
+description: 전역 설계/구현 패턴(스켈레톤 선택, Repository 패턴, API 응답 포맷)
+alwaysApply: true
+---
 # Common Patterns
 
 ## Skeleton Projects

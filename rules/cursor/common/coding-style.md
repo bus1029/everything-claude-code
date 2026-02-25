@@ -1,3 +1,7 @@
+---
+description: 전역 코딩 스타일(불변성/에러처리/입력검증/품질 체크리스트)
+alwaysApply: true
+---
 # Coding Style
 
 ## Immutability (CRITICAL)
