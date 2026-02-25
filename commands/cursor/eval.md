@@ -118,8 +118,3 @@ $ARGUMENTS:
 - `report <name>` - Generate full report
 - `list` - Show all evals
 - `clean` - Remove old eval logs (keeps last 10 runs)
-
-## Notes
-
-- The eval workflow is procedural: metrics like `pass@3` require repeated attempts and consistent logging.
-- Store eval definitions and logs in `.cursor/evals/` so they are versionable per project and do not depend on external tooling.

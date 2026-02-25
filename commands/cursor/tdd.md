@@ -4,7 +4,7 @@ description: Enforce test-driven development workflow. Scaffold interfaces, gene
 
 # TDD Command
 
-This command invokes the **tdd-guide** subagent to enforce test-driven development methodology.
+This command invokes the **tdd-guide** agent to enforce test-driven development methodology.
 
 ## What This Command Does
 
@@ -133,7 +133,7 @@ FAIL lib/liquidity.test.ts
 1 test failed, 0 passed
 ```
 
-Tests fail as expected. Ready to implement.
+✅ Tests fail as expected. Ready to implement.
 
 ## Step 4: Implement Minimal Code (GREEN)
 
@@ -179,7 +179,7 @@ PASS lib/liquidity.test.ts
 3 tests passed
 ```
 
-All tests passing.
+✅ All tests passing!
 
 ## Step 6: Refactor (IMPROVE)
 
@@ -236,7 +236,7 @@ PASS lib/liquidity.test.ts
 3 tests passed
 ```
 
-Refactoring complete, tests still passing.
+✅ Refactoring complete, tests still passing!
 
 ## Step 8: Check Coverage
 
@@ -247,29 +247,29 @@ File           | % Stmts | % Branch | % Funcs | % Lines
 ---------------|---------|----------|---------|--------
 liquidity.ts   |   100   |   100    |   100   |   100
 
-Coverage: 100% (Target: 80%)
+Coverage: 100% ✅ (Target: 80%)
 ```
 
-TDD session complete.
+✅ TDD session complete!
 ```
 
 ## TDD Best Practices
 
 **DO:**
-- Write the test FIRST, before any implementation
-- Run tests and verify they FAIL before implementing
-- Write minimal code to make tests pass
-- Refactor only after tests are green
-- Add edge cases and error scenarios
-- Aim for 80%+ coverage (100% for critical code)
+- ✅ Write the test FIRST, before any implementation
+- ✅ Run tests and verify they FAIL before implementing
+- ✅ Write minimal code to make tests pass
+- ✅ Refactor only after tests are green
+- ✅ Add edge cases and error scenarios
+- ✅ Aim for 80%+ coverage (100% for critical code)
 
 **DON'T:**
-- Write implementation before tests
-- Skip running tests after each change
-- Write too much code at once
-- Ignore failing tests
-- Test implementation details (test behavior)
-- Mock everything (prefer integration tests)
+- ❌ Write implementation before tests
+- ❌ Skip running tests after each change
+- ❌ Write too much code at once
+- ❌ Ignore failing tests
+- ❌ Test implementation details (test behavior)
+- ❌ Mock everything (prefer integration tests)
 
 ## Test Types to Include
 
