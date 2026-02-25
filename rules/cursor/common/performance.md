@@ -1,3 +1,7 @@
+---
+description: 전역 성능/비용 최적화 가이드(모델 선택, 컨텍스트 관리, 빌드 트러블슈팅)
+alwaysApply: true
+---
 # Performance Optimization
 
 ## Scope / Precedence

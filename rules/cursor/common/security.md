@@ -1,3 +1,7 @@
+---
+description: 전역 보안 가이드(시크릿/입력검증/인증/CSRF 등 체크리스트)
+alwaysApply: true
+---
 # Security Guidelines
 
 ## Scope / Precedence

@@ -1,3 +1,7 @@
+---
+description: 전역 테스트 요구사항(TDD, 유닛/통합/E2E, 커버리지 80%)
+alwaysApply: true
+---
 # Testing Requirements
 
 ## Scope / Precedence
