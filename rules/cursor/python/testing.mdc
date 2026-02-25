@@ -1,0 +1,38 @@
+---
+description: Python 테스트(pytest, TDD, 커버리지)
+globs: ["**/*.py", "**/*.pyi"]
+alwaysApply: false
+---
+# Python Testing
+
+> 참고: Cursor 규칙은 다른 문서를 “자동 상속/병합”하지 않습니다. 공통 테스트 규칙이 필요하면 `rules/common/testing.md`를 별도 Cursor 규칙으로 옮기거나, 필요한 내용을 이 문서에 통합하세요.
+
+## Framework
+
+Use **pytest** as the testing framework.
+
+## Coverage
+
+```bash
+pytest --cov=<your_package_or_src_dir> --cov-report=term-missing
+```
+
+## Test Organization
+
+Use `pytest.mark` for test categorization:
+
+```python
+import pytest
+
+@pytest.mark.unit
+def test_calculate_total():
+    ...
+
+@pytest.mark.integration
+def test_database_connection():
+    ...
+```
+
+## Reference
+
+See skill: `python-testing` for detailed pytest patterns and fixtures.

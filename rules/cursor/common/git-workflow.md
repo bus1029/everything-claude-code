@@ -1,3 +1,7 @@
+---
+description: 전역 Git 워크플로(커밋 메시지/PR 흐름/TDD/리뷰)
+alwaysApply: true
+---
 # Git Workflow
 
 ## Scope / Precedence

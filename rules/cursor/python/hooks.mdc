@@ -1,0 +1,18 @@
+---
+description: Python 훅 가이드(포매팅/타입체크/경고)
+globs: ["**/*.py", "**/*.pyi"]
+alwaysApply: false
+---
+# Python Hooks
+
+> 참고: Cursor 프로젝트 규칙은 “훅 설정 파일”이 아니라, AI가 작업할 때 따라야 하는 지침입니다. 아래 내용은 Python 파일 편집/리팩터링 후에 자동화(저장 시/CI/pre-commit 등)로 붙이는 것을 권장하는 체크리스트입니다.
+
+## PostToolUse Hooks
+
+- **format/lint**: `ruff format` + `ruff check` (또는 `black` + `ruff`)
+- **typecheck**: `mypy` 또는 `pyright`
+- **범위**: “전체 프로젝트” 대신 “변경된 파일” 위주로 먼저 돌려 피드백을 빠르게 받기
+
+## Warnings
+
+- 디버그용 `print()`는 커밋 전에 제거하고 `logging` 사용을 우선 고려하기

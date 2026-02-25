@@ -1,3 +1,7 @@
+---
+description: 전역 Subagent 오케스트레이션 규칙(언제 어떤 에이전트를 쓸지)
+alwaysApply: true
+---
 # Subagent Orchestration (Cursor)
 
 ## 범위/우선순위(중요)
