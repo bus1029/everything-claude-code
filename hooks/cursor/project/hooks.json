@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node .cursor/hooks/session-start.js",
+        "description": "Load previous context and detect environment"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "node .cursor/hooks/before-shell-execution.js",
+        "description": "Tmux dev server blocker, tmux reminder, git push review"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/after-file-edit.js",
+        "description": "Auto-format, TypeScript check, console.log warning"
+      }
+    ],
+    "beforeTabFileRead": [
+      {
+        "command": "node .cursor/hooks/before-tab-file-read.js",
+        "description": "Block Tab from reading secrets (.env, .key, .pem, credentials)"
+      }
+    ],
+    "afterTabFileEdit": [
+      {
+        "command": "node .cursor/hooks/after-tab-file-edit.js",
+        "description": "Auto-format Tab edits"
+      }
+    ],
+    "preCompact": [
+      {
+        "command": "node .cursor/hooks/pre-compact.js",
+        "description": "Save state before context compaction"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node .cursor/hooks/stop.js",
+        "description": "Console.log audit on all modified files"
+      }
+    ]
+  }
+}
