@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterShellExecution": [
+      {
+        "command": "node ./hooks/after-shell-execution.js",
+        "description": "PR URL logging, build analysis"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "node ./hooks/before-mcp-execution.js",
+        "description": "MCP audit logging and untrusted server warning"
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "node ./hooks/after-mcp-execution.js",
+        "description": "MCP result logging"
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": "node ./hooks/before-read-file.js",
+        "description": "Warn when reading sensitive files (.env, .key, .pem)"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "node ./hooks/before-submit-prompt.js",
+        "description": "Detect secrets in prompts (sk-, ghp_, AKIA patterns)"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "node ./hooks/subagent-start.js",
+        "description": "Log agent spawning for observability"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "node ./hooks/subagent-stop.js",
+        "description": "Log agent completion"
+      }
+    ]
+  }
+}
