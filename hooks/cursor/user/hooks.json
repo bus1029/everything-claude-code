@@ -1,6 +1,13 @@
 {
   "version": 1,
   "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "Shell",
+        "command": "./hooks/rtk-pre-tool-use.sh",
+        "description": "RTK auto rewrite for shell commands"
+      }
+    ],
     "afterShellExecution": [
       {
         "command": "node ./hooks/after-shell-execution.js",
