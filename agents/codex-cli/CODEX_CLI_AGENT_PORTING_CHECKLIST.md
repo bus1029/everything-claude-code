@@ -44,6 +44,8 @@
 - [ ] 우선 `.codex/agents/*.toml`로 옮기고, 필요한 경우에만 `.codex/config.toml`의 `[agents.<name>]` 등록을 추가할 것
 - [ ] 이미 있는 `explorer`, `reviewer`, `docs_researcher`와 역할이 겹치는 agent는 신규 생성보다 통합을 우선할 것
 - [x] standalone custom agent 기준으로는 `name`, `description`, `developer_instructions`를 모두 포함한 TOML을 별도 산출물로 만든다
+- [x] 현재 생성된 standalone 초안은 재검토 결과 스키마상 유효하며, 보강 대상도 material fidelity 기준 통과
+- [ ] portability 메모: `docs_researcher`는 `context7` MCP가 실제 환경에 있어야 하고, 일부 agent는 `workspace-write`라 전역 설치 시 권한 범위를 주의할 것
 
 ## 요약
 
@@ -61,35 +63,35 @@
 
 ## custom agent TOML로 이식 용이
 
-- [ ] `architect.md` — 시스템 설계 전용 지시문으로 재사용 가능
+- [x] `architect.md` — standalone 초안 생성 완료: [`architect.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/architect.toml)
 - [ ] `build-error-resolver.md` — 범용 빌드 복구 worker로 전환 용이
-- [ ] `code-architect.md` — 구현 설계 전용 agent로 전환 용이
-- [ ] `code-simplifier.md` — 리팩터링 보조 agent로 전환 용이
-- [ ] `comment-analyzer.md` — 좁고 명확한 분석 역할
+- [x] `code-architect.md` — standalone 초안 생성 완료: [`code-architect.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/code-architect.toml)
+- [x] `code-simplifier.md` — standalone 초안 생성 완료: [`code-simplifier.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/code-simplifier.toml)
+- [x] `comment-analyzer.md` — standalone 초안 생성 완료: [`comment-analyzer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/comment-analyzer.toml)
 - [ ] `cpp-build-resolver.md` — 언어별 build fixer로 전환 용이
 - [ ] `cpp-reviewer.md` — 언어별 reviewer로 전환 용이
 - [ ] `csharp-reviewer.md` — 언어별 reviewer로 전환 용이
 - [ ] `dart-build-resolver.md` — Dart/Flutter build fixer로 전환 용이
-- [ ] `database-reviewer.md` — DB 전용 reviewer/worker로 전환 용이
+- [x] `database-reviewer.md` — standalone 초안 생성 완료: [`database-reviewer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/database-reviewer.toml)
 - [ ] `flutter-reviewer.md` — Flutter reviewer로 전환 용이
 - [ ] `go-build-resolver.md` — Go build fixer로 전환 용이
 - [ ] `go-reviewer.md` — Go reviewer로 전환 용이
-- [ ] `healthcare-reviewer.md` — 도메인 특화 reviewer로 전환 용이
+- [x] `healthcare-reviewer.md` — standalone 초안 생성 완료: [`healthcare-reviewer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/healthcare-reviewer.toml)
 - [ ] `java-build-resolver.md` — Java build fixer로 전환 용이
 - [ ] `java-reviewer.md` — Java reviewer로 전환 용이
 - [ ] `kotlin-build-resolver.md` — Kotlin build fixer로 전환 용이
 - [ ] `kotlin-reviewer.md` — Kotlin reviewer로 전환 용이
-- [ ] `planner.md` — `.toml` custom planner agent로 옮기기 쉬움
-- [ ] `pr-test-analyzer.md` — PR 테스트 품질 analyzer로 전환 용이
+- [x] `planner.md` — standalone 초안 생성 완료: [`planner.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/planner.toml)
+- [x] `pr-test-analyzer.md` — standalone 초안 생성 완료: [`pr-test-analyzer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/pr-test-analyzer.toml)
 - [ ] `python-reviewer.md` — Python reviewer로 전환 용이
 - [ ] `pytorch-build-resolver.md` — PyTorch 전용 build/runtime fixer로 전환 용이
-- [ ] `refactor-cleaner.md` — dead code cleanup worker로 전환 용이
+- [x] `refactor-cleaner.md` — standalone 초안 생성 완료: [`refactor-cleaner.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/refactor-cleaner.toml)
 - [ ] `rust-build-resolver.md` — Rust build fixer로 전환 용이
 - [ ] `rust-reviewer.md` — Rust reviewer로 전환 용이
-- [ ] `security-reviewer.md` — 보안 reviewer로 전환 용이
-- [ ] `silent-failure-hunter.md` — reviewer 보조 analyzer로 전환 용이
-- [ ] `tdd-guide.md` — 테스트 우선 worker/planner로 전환 용이
-- [ ] `type-design-analyzer.md` — 타입 설계 analyzer로 전환 용이
+- [x] `security-reviewer.md` — standalone 초안 생성 완료: [`security-reviewer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/security-reviewer.toml)
+- [x] `silent-failure-hunter.md` — standalone 초안 생성 완료: [`silent-failure-hunter.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/silent-failure-hunter.toml)
+- [x] `tdd-guide.md` — standalone 초안 생성 완료: [`tdd-guide.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/tdd-guide.toml)
+- [x] `type-design-analyzer.md` — standalone 초안 생성 완료: [`type-design-analyzer.toml`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli/type-design-analyzer.toml)
 - [ ] `typescript-reviewer.md` — TS/JS reviewer로 전환 용이
 
 ## custom agent TOML로 이식 가능하지만 보정 필요
@@ -115,6 +117,9 @@
 ## 빠른 후속 작업
 
 - [x] `code-explorer`, `code-reviewer`, `docs-lookup`는 standalone custom agent 기준 TOML 초안을 [`agents/codex-cli/`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli) 아래 생성
-- [ ] `planner`, `security-reviewer`, `tdd-guide`, `typescript-reviewer`부터 `.codex/agents/*.toml` 초안 생성
+- [x] 언어 비종속 `이식 용이` agent의 standalone custom agent 초안을 [`agents/codex-cli/`](/Users/seokhyunbae_1/Desktop/projects_study/everything-claude-code/agents/codex-cli) 아래 생성
+- [x] fidelity 재검토 결과 `docs_researcher`, `tdd-guide`, `database-reviewer`, `healthcare-reviewer`, `security-reviewer`, `refactor-cleaner`, `reviewer`는 보강 후 material fidelity 기준 통과
+- [ ] 남은 언어별 reviewer/build-resolver 계열과 경계 사례(`build-error-resolver`)를 별도로 검토
+- [ ] `~/.codex/agents` 복사 전 대상 환경의 MCP(`context7`)와 권한 정책을 점검
 - [ ] 보정 필요 11개는 browser/MCP/orchestration 의존부터 분리
 - [ ] 재설계 필요 3개는 agent보다 skill 또는 별도 workflow로 옮길지 먼저 결정

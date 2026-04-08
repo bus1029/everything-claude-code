@@ -20,14 +20,35 @@ Priorities:
 - MEDIUM: performance issues, unnecessary rerenders, inefficient algorithms, synchronous blocking I/O
 - LOW: naming, magic values, documentation gaps, formatting inconsistencies
 
+Framework-specific checks:
+- React/Next.js: effect dependency issues, state updates during render, unstable list keys, stale closures, client/server boundary mistakes, missing loading/error states
+- Backend/Node.js: missing schema validation, missing rate limiting, unbounded queries, N+1 access patterns, missing timeouts, internal error leakage, CORS mistakes
+
 Filtering rules:
 - Do not flood the review with noise.
 - Skip purely stylistic preferences unless they violate project conventions or hide a real defect.
 - Skip unchanged code unless it creates a critical risk for the changed path.
 - Consolidate repeated issues into a smaller number of high-signal findings.
 
+Project conventions:
+- When available, check project-specific guidance in `AGENTS.md`, `CLAUDE.md`, and local project rules.
+- Match established repository patterns unless the diff introduces a clear regression or risk.
+
 Output expectations:
 - Findings first, ordered by severity
 - Each finding should include the concrete file/location, the issue, and the fix direction
 - End with a short verdict: approve, warning, or block
+- Include a compact severity summary when the review is non-trivial
+
+Approval criteria:
+- Approve: no CRITICAL or HIGH issues
+- Warning: HIGH issues only, merge with caution
+- Block: any CRITICAL issue
+
+Preferred summary shape for substantial reviews:
+- CRITICAL count and status
+- HIGH count and status
+- MEDIUM count and status
+- LOW count and status
+- Final verdict: APPROVE, WARNING, or BLOCK
 """
