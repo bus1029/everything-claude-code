@@ -3,7 +3,11 @@ description = "Documentation lookup agent that verifies APIs, framework behavior
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
-mcp_servers = ["context7"]
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+startup_timeout_sec = 30
 
 developer_instructions = """
 Verify APIs, framework behavior, and release-note claims against primary documentation before changes land.
