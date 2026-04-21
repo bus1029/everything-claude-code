@@ -158,10 +158,21 @@
 ## 요약
 
 - 전체 top-level agent 파일: 47개
+- 현재 `agents/codex-cli/*.toml` 기준 standalone 포팅 완료: 21개
+- 현재 미포팅: 26개
+- 현재 완료율: 44.7%
 - 기존 Codex 역할로 흡수 권장: 3개
 - custom agent TOML로 이식 용이: 30개
 - custom agent TOML로 이식 가능하지만 보정 필요: 11개
 - 재설계 필요: 3개
+
+## 현재 포팅 진행률
+
+- 완료 표시는 `agents/codex-cli` 아래에 standalone TOML 산출물이 실제 존재할 때만 부여
+- 기존 Codex 역할로 흡수 권장: 3/3 완료
+- custom agent TOML로 이식 용이: 18/30 완료
+- custom agent TOML로 이식 가능하지만 보정 필요: 0/11 완료
+- 재설계 필요: 0/3 완료
 
 ## 기존 Codex 역할로 흡수 권장
 

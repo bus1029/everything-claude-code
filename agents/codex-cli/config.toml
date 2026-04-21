@@ -1,0 +1,78 @@
+# Merge this into `~/.codex/config.toml`.
+# These entries use user-level `agents/*.toml` paths for `~/.codex/config.toml`.
+# Omitted because they already exist in the current `~/.codex/config.toml`:
+# - `explorer`
+# - `reviewer`
+# - `docs_researcher`
+
+[agents.architect]
+description = "Software architecture agent for system design, scalability, technical trade-offs, and long-term maintainability."
+config_file = "agents/architect.toml"
+
+[agents.code-architect]
+description = "Feature architecture agent that maps new work onto existing repo patterns and produces concrete implementation blueprints."
+config_file = "agents/code-architect.toml"
+
+[agents.code-simplifier]
+description = "Behavior-preserving refactoring agent that simplifies code for clarity, consistency, and maintainability."
+config_file = "agents/code-simplifier.toml"
+
+[agents.comment-analyzer]
+description = "Read-only agent that reviews code comments for accuracy, completeness, maintainability, and comment rot risk."
+config_file = "agents/comment-analyzer.toml"
+
+[agents.database-reviewer]
+description = "PostgreSQL-focused database review and remediation agent for schema design, query performance, concurrency, RLS, and operational safety."
+config_file = "agents/database-reviewer.toml"
+
+[agents.go-build-resolver]
+description = "Go build-error resolver that fixes compilation, vet, lint, and module-resolution failures with minimal, surgical changes."
+config_file = "agents/go-build-resolver.toml"
+
+[agents.go-reviewer]
+description = "Go review agent specializing in idiomatic Go, concurrency patterns, error handling, security, and performance risks."
+config_file = "agents/go-reviewer.toml"
+
+[agents.healthcare-reviewer]
+description = "Clinical safety and PHI compliance review agent for healthcare software, with emphasis on patient safety, auditability, and data protection."
+config_file = "agents/healthcare-reviewer.toml"
+
+[agents.java-build-resolver]
+description = "Java, Maven, and Gradle build-error resolver that fixes compilation, dependency, annotation processor, and static-analysis failures with minimal changes."
+config_file = "agents/java-build-resolver.toml"
+
+[agents.java-reviewer]
+description = "Java and Spring Boot review agent specializing in layered architecture, JPA patterns, security, concurrency, and build-aware code quality checks."
+config_file = "agents/java-reviewer.toml"
+
+[agents.planner]
+description = "Implementation planning agent for complex features and refactors, producing actionable phased plans with dependencies, risks, and testing strategy."
+config_file = "agents/planner.toml"
+
+[agents.pr-test-analyzer]
+description = "Read-only PR test analysis agent that evaluates whether tests cover changed behavior, edge cases, and meaningful failure modes."
+config_file = "agents/pr-test-analyzer.toml"
+
+[agents.python-reviewer]
+description = "Python code review agent specializing in Pythonic idioms, type hints, security, error handling, concurrency, and framework-specific risk detection."
+config_file = "agents/python-reviewer.toml"
+
+[agents.refactor-cleaner]
+description = "Safe cleanup agent for dead code removal, duplicate consolidation, and dependency pruning with conservative verification."
+config_file = "agents/refactor-cleaner.toml"
+
+[agents.security-reviewer]
+description = "Security review and remediation agent focused on secrets, injection risks, unsafe trust boundaries, auth flaws, and OWASP-class issues."
+config_file = "agents/security-reviewer.toml"
+
+[agents.silent-failure-hunter]
+description = "Read-only agent that finds swallowed errors, misleading fallbacks, weak logging, and missing error propagation."
+config_file = "agents/silent-failure-hunter.toml"
+
+[agents.tdd-guide]
+description = "Test-driven development agent that enforces tests-first workflow, 80%+ coverage, explicit edge-case handling, and eval-aware verification."
+config_file = "agents/tdd-guide.toml"
+
+[agents.type-design-analyzer]
+description = "Read-only type review agent that evaluates whether types encode invariants, hide internals, and prevent illegal states."
+config_file = "agents/type-design-analyzer.toml"
