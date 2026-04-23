@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff"
+  short_description: "Write or refresh the next-session handoff note."
+  default_prompt: "Use $handoff to write or update a Korean handoff document for the next Codex session."
