@@ -1,96 +1,96 @@
-# ECC for Codex CLI
+# Codex CLI Global Instructions
 
-This supplements the root `AGENTS.md` with Codex-specific guidance.
+These instructions apply to Codex sessions that load `/Users/seokhyunbae_1/.codex`.
+Keep this file short: put durable operating rules here, not copied framework docs or long tool inventories.
 
-## Model Recommendations
+## Shell
 
-| Task Type | Recommended Model |
-|-----------|------------------|
-| Routine coding, tests, formatting | GPT 5.4 |
-| Complex features, architecture | GPT 5.4 |
-| Debugging, refactoring | GPT 5.4 |
-| Security review | GPT 5.4 |
+- Use `rtk` for shell commands when available.
+- Examples: `rtk git status`, `rtk cargo test`, `rtk npm run build`, `rtk pytest -q`.
+- Use `rtk proxy <cmd>` only when raw, unfiltered command output is required.
+- Use raw/proxy output for security scans, diffs, and audits when filtering could hide findings.
+- Do not persist or forward raw secret-bearing output to logs, memory, MCP tools, or final responses.
+- Redact sensitive output before reporting it.
+- If `rtk` is unavailable or breaks a command, run it directly and note why.
+- Useful checks: `command -v rtk`, `rtk --version`, `rtk gain`, `rtk gain --history`.
 
-## Skills Discovery
+## Working Style
 
-Skills are auto-loaded from `.agents/skills/`. Each skill contains:
-- `SKILL.md` — Detailed instructions and workflow
-- `agents/openai.yaml` — Codex interface metadata
+- Codex persistent guidance comes from `AGENTS.md`; do not rely on `CLAUDE.md`, hooks, or slash commands unless the current harness exposes them.
+- Follow the active `AGENTS.md` hierarchy for the current workspace.
+- Project-local `AGENTS.md` files may narrow or override this global file unless higher-priority runtime or developer instructions say otherwise.
+- When instructions conflict on safety, follow the stricter safety rule.
+- Prefer direct implementation when the request is clear.
+- Read the local codebase before changing behavior.
+- Preserve user changes. Do not revert files unless explicitly asked.
+- Use `rg` / `rg --files` for search.
+- Use `apply_patch` for manual file edits.
+- Keep changes scoped to the requested behavior.
+- Add comments only when they clarify non-obvious logic.
 
-Available skills:
-- tdd-workflow — Test-driven development with 80%+ coverage
-- security-review — Comprehensive security checklist
-- coding-standards — Universal coding standards
-- frontend-patterns — React/Next.js patterns
-- frontend-slides — Viewport-safe HTML presentations and PPTX-to-web conversion
-- article-writing — Long-form writing from notes and voice references
-- content-engine — Platform-native social content and repurposing
-- market-research — Source-attributed market and competitor research
-- investor-materials — Decks, memos, models, and one-pagers
-- investor-outreach — Personalized investor outreach and follow-ups
-- backend-patterns — API design, database, caching
-- e2e-testing — Playwright E2E tests
-- eval-harness — Eval-driven development
-- strategic-compact — Context management
-- api-design — REST API design patterns
-- verification-loop — Build, test, lint, typecheck, security
-- deep-research — Multi-source research with firecrawl and exa MCPs
-- exa-search — Neural search via Exa MCP for web, code, and companies
-- claude-api — Anthropic Claude API patterns and SDKs
-- x-api — X/Twitter API integration for posting, threads, and analytics
-- crosspost — Multi-platform content distribution
-- fal-ai-media — AI image/video/audio generation via fal.ai
-- dmux-workflows — Multi-agent orchestration with dmux
+## Skills
 
-## MCP Servers
+- Use a skill when the user names it or the task clearly matches it.
+- Read only the relevant `SKILL.md` and nearby referenced files.
+- Prefer existing scripts/assets/templates from the skill over recreating them.
+- Do not paste long skill inventories into this file; discover skills from the active Codex skill list.
 
-Treat the project-local `.codex/config.toml` as the default Codex baseline for ECC. The current ECC baseline enables GitHub, Context7, Exa, Memory, Playwright, and Sequential Thinking; add heavier extras in `~/.codex/config.toml` only when a task actually needs them.
+## Agents
 
-ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher package remains `@upstash/context7-mcp`; only the TOML section name is normalized for consistency with `codex mcp list` and the reference config.
+- Use sub-agents only when the user explicitly asks for agents, delegation, or parallel agent work.
+- When agents are requested, check `.codex/config.toml` for `[features] multi_agent` and project roles under `.codex/agents/` when relevant.
+- For ordinary implementation, inspect and edit locally.
+- If agents are used, give each one a concrete, bounded task and avoid overlapping write ownership.
+- Do not pass secrets or credentials to agents unless the user explicitly approves that scope for the current task; send the minimum needed.
 
-### Automatic config.toml merging
+## Testing And Verification
 
-The sync script (`scripts/sync-ecc-to-codex.sh`) uses a Node-based TOML parser to safely merge ECC MCP servers into `~/.codex/config.toml`:
+- Match verification depth to risk and blast radius.
+- For code changes, run the narrowest relevant tests first, then broader checks when shared behavior is touched.
+- For frontend work, verify rendered behavior in a browser when practical.
+- Before push/commit, review `git diff` and run relevant lint/type/test/security checks.
+- If a check cannot run, report the reason and residual risk.
 
-- **Add-only by default** — missing ECC servers are appended; existing servers are never modified or removed.
-- **7 managed servers** — Supabase, Playwright, Context7, Exa, GitHub, Memory, Sequential Thinking.
-- **Canonical naming** — ECC manages Context7 as `[mcp_servers.context7]`; legacy `[mcp_servers.context7-mcp]` entries are treated as aliases during updates.
-- **Package-manager aware** — uses the project's configured package manager (npm/pnpm/yarn/bun) instead of hardcoding `pnpm`.
-- **Drift warnings** — if an existing server's config differs from the ECC recommendation, the script logs a warning.
-- **`--update-mcp`** — explicitly replaces all ECC-managed servers with the latest recommended config (safely removes subtables like `[mcp_servers.supabase.env]`).
-- **User config is always preserved** — custom servers, args, env vars, and credentials outside ECC-managed sections are never touched.
+## Security
 
-## Multi-Agent Support
+- Never hardcode secrets, tokens, passwords, or private keys.
+- Do not read secret-bearing files or raw secret output unless the task specifically requires that exact secret source.
+- Prefer existence checks, key-name-only inspection, or redacted excerpts over full secret reads.
+- Redact tokens, cookies, private keys, auth files, and `.env` values from responses, logs, memory, and MCP calls.
+- Use environment variables or a secret manager for credentials.
+- Validate external input at system boundaries.
+- Prefer parameterized queries and framework escaping APIs.
+- Do not expose sensitive details in client-visible errors or logs.
+- Do not run destructive shell commands, privilege escalation, network install scripts, production deploys, cloud/database deletion, or irreversible migrations unless the user explicitly requests that exact operation.
+- For destructive or privileged operations, require explicit target, environment, and operation.
+- Do not expand destructive scope with globs, recursion, force flags, or production targets unless those are explicitly requested.
+- Run ecosystem audits when dependencies or lockfiles change, before publish/deploy/release, and during explicit security reviews when package manifests exist: `npm audit`, `pnpm audit`, `pip-audit`, `safety`, `cargo audit`, `govulncheck`, or `bundler-audit`.
+- If audit tooling is unavailable, report residual dependency risk.
 
-Codex now supports multi-agent workflows behind the experimental `features.multi_agent` flag.
+## Code Quality
 
-- Enable it in `.codex/config.toml` with `[features] multi_agent = true`
-- Define project-local roles under `[agents.<name>]`
-- Point each role at a TOML layer under `.codex/agents/`
-- Use `/agent` inside Codex CLI to inspect and steer child agents
+- Keep functions and files focused.
+- Prefer clear data flow and explicit error handling.
+- Avoid silent failure paths.
+- Use existing project patterns before adding new abstractions.
+- Favor immutable updates where practical, especially in application state and shared data.
 
-Sample role configs in this repo:
-- `.codex/agents/explorer.toml` — read-only evidence gathering
-- `.codex/agents/reviewer.toml` — correctness/security review
-- `.codex/agents/docs-researcher.toml` — API and release-note verification
+## Git
 
-## Key Differences from Claude Code
+- Commit messages should use conventional format: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `perf:`, or `ci:`.
+- Do not commit, push, publish, or create releases unless explicitly requested.
+- Push with upstream tracking for new branches when asked to push.
+- Treat reset, checkout/restore of user changes, branch deletion, and force push as destructive git operations.
 
-| Feature | Claude Code | Codex CLI |
-|---------|------------|-----------|
-| Hooks | 8+ event types | Not yet supported |
-| Context file | CLAUDE.md + AGENTS.md | AGENTS.md only |
-| Skills | Skills loaded via plugin | `.agents/skills/` directory |
-| Commands | `/slash` commands | Instruction-based |
-| Agents | Subagent Task tool | Multi-agent via `/agent` and `[agents.<name>]` roles |
-| Security | Hook-based enforcement | Instruction + sandbox |
-| MCP | Full support | Supported via `config.toml` and `codex mcp add` |
+## MCP And Config
 
-## Security Without Hooks
-
-Since Codex lacks hooks, security enforcement is instruction-based:
-1. Always validate inputs at system boundaries
-2. Never hardcode secrets — use environment variables
-3. Run `npm audit` / `pip audit` before committing
-4. Review `git diff` before every push
-5. Use `sandbox_mode = "workspace-write"` in config
+- Current runtime and developer instructions are authoritative over project-local config.
+- Follow the active sandbox, approval, and network policy exactly; do not request unavailable approvals or weaken runtime controls.
+- Treat project-local `.codex/config.toml` as the project-specific Codex config baseline when present; active runtime policy still wins.
+- Add heavier MCP servers only when a task needs them.
+- Use `[mcp_servers.context7]` for Context7.
+- Prefer pinned MCP packages and least-privilege or read-only tools.
+- Do not weaken sandbox, approval, network, or MCP permissions from project-local config without explicit user approval.
+- Never pass credentials, tokens, cookies, private keys, or secret file contents to MCP tools unless the user explicitly approves that tool and scope for the current task; send the minimum needed.
+- Prefer add-only config changes unless explicitly asked to update or replace managed sections.
+- Preserve user config and credentials when editing Codex configuration.
