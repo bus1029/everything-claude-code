@@ -1,0 +1,7 @@
+interface:
+  display_name: "PyTorch Patterns"
+  short_description: "PyTorch training loops, model design, data loading, reproducibility, and performance"
+  brand_color: "#EE4C2C"
+  default_prompt: "Apply PyTorch patterns: training loops, modules, dataloaders, reproducibility"
+policy:
+  allow_implicit_invocation: true

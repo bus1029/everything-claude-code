@@ -1,0 +1,7 @@
+interface:
+  display_name: "Django Security"
+  short_description: "Django auth, authorization, CSRF, SQL injection, XSS, and secure deployment"
+  brand_color: "#2BA977"
+  default_prompt: "Apply Django security: auth, CSRF, validation, XSS, SQL injection, deploy settings"
+policy:
+  allow_implicit_invocation: true

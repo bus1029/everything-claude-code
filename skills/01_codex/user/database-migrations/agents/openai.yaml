@@ -1,0 +1,7 @@
+interface:
+  display_name: "Database Migrations"
+  short_description: "Safe schema changes, data migrations, rollbacks, and zero-downtime deploys"
+  brand_color: "#6366F1"
+  default_prompt: "Plan database migration: schema changes, rollback, zero-downtime safety"
+policy:
+  allow_implicit_invocation: true

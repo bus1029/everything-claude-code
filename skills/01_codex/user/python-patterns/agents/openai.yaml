@@ -1,0 +1,7 @@
+interface:
+  display_name: "Python Patterns"
+  short_description: "Python idioms, type hints, error handling, async, and project structure"
+  brand_color: "#3776AB"
+  default_prompt: "Apply Python patterns: idioms, type hints, error handling, package structure"
+policy:
+  allow_implicit_invocation: true

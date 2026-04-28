@@ -1,0 +1,7 @@
+interface:
+  display_name: "Django Patterns"
+  short_description: "Django architecture, DRF APIs, ORM, caching, signals, and middleware"
+  brand_color: "#0C4B33"
+  default_prompt: "Apply Django patterns: DRF, ORM, services, caching, middleware"
+policy:
+  allow_implicit_invocation: true

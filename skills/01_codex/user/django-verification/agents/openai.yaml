@@ -1,0 +1,7 @@
+interface:
+  display_name: "Django Verification"
+  short_description: "Django build, migration, lint, test, security, and deploy readiness checks"
+  brand_color: "#092E20"
+  default_prompt: "Verify Django project: migrations, lint, tests, security, deploy readiness"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Django TDD"
+  short_description: "Django test-driven development with pytest-django, factories, and DRF tests"
+  brand_color: "#44B78B"
+  default_prompt: "Use Django TDD: pytest-django, factories, DRF tests, coverage"
+policy:
+  allow_implicit_invocation: true

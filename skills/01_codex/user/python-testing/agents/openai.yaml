@@ -1,0 +1,7 @@
+interface:
+  display_name: "Python Testing"
+  short_description: "pytest, fixtures, mocking, parametrization, async tests, and coverage"
+  brand_color: "#FFD43B"
+  default_prompt: "Apply Python testing patterns: pytest, fixtures, mocking, coverage"
+policy:
+  allow_implicit_invocation: true

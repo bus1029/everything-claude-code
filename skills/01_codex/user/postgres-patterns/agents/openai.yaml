@@ -1,0 +1,7 @@
+interface:
+  display_name: "Postgres Patterns"
+  short_description: "PostgreSQL schema, indexing, query, and security patterns"
+  brand_color: "#336791"
+  default_prompt: "Apply PostgreSQL patterns: schema design, indexing, query optimization"
+policy:
+  allow_implicit_invocation: true
