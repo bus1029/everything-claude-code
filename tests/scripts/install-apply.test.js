@@ -10,6 +10,7 @@ const { execFileSync } = require('child_process');
 const { applyInstallPlan } = require('../../scripts/lib/install/apply');
 
 const SCRIPT = path.join(__dirname, '..', '..', 'scripts', 'install-apply.js');
+const DEFAULT_INSTALL_APPLY_TIMEOUT_MS = process.platform === 'win32' ? 30000 : 10000;
 
 function createTempDir(prefix) {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
@@ -38,7 +39,7 @@ function run(args = [], options = {}) {
       env,
       encoding: 'utf8',
       stdio: ['pipe', 'pipe', 'pipe'],
-      timeout: 10000,
+      timeout: options.timeout || DEFAULT_INSTALL_APPLY_TIMEOUT_MS,
     });
 
     return { code: 0, stdout, stderr: '' };
@@ -46,7 +47,7 @@ function run(args = [], options = {}) {
     return {
       code: error.status || 1,
       stdout: error.stdout || '',
-      stderr: error.stderr || '',
+      stderr: error.stderr || error.message || '',
     };
   }
 }
@@ -138,10 +139,18 @@ function runTests() {
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'agents', 'architect.md')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'commands', 'plan.md')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'hooks.json')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'mcp.json')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'hooks', 'session-start.js')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'scripts', 'lib', 'utils.js')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'skills', 'tdd-workflow', 'SKILL.md')));
       assert.ok(fs.existsSync(path.join(projectDir, '.cursor', 'skills', 'coding-standards', 'SKILL.md')));
+
+      const hooksConfig = readJson(path.join(projectDir, '.cursor', 'hooks.json'));
+      const mcpConfig = readJson(path.join(projectDir, '.cursor', 'mcp.json'));
+      assert.strictEqual(hooksConfig.version, 1);
+      assert.ok(hooksConfig.hooks.sessionStart, 'Should keep Cursor sessionStart hooks');
+      assert.ok(mcpConfig.mcpServers.github, 'Should install shared MCP servers into Cursor');
+      assert.ok(mcpConfig.mcpServers.context7, 'Should include bundled documentation MCPs');
 
       const statePath = path.join(projectDir, '.cursor', 'ecc-install-state.json');
       const state = readJson(statePath);
@@ -157,6 +166,35 @@ function runTests() {
         )),
         'Should record manifest command file copy operation'
       );
+    } finally {
+      cleanup(homeDir);
+      cleanup(projectDir);
+    }
+  })) passed++; else failed++;
+
+  if (test('installs Cursor MCP config by merging bundled servers into an existing mcp.json', () => {
+    const homeDir = createTempDir('install-apply-home-');
+    const projectDir = createTempDir('install-apply-project-');
+
+    try {
+      const cursorRoot = path.join(projectDir, '.cursor');
+      fs.mkdirSync(cursorRoot, { recursive: true });
+      fs.writeFileSync(path.join(cursorRoot, 'mcp.json'), JSON.stringify({
+        mcpServers: {
+          custom: {
+            command: 'node',
+            args: ['custom-mcp.js'],
+          },
+        },
+      }, null, 2));
+
+      const result = run(['--target', 'cursor', 'typescript'], { cwd: projectDir, homeDir });
+      assert.strictEqual(result.code, 0, result.stderr);
+
+      const mcpConfig = readJson(path.join(projectDir, '.cursor', 'mcp.json'));
+      assert.ok(mcpConfig.mcpServers.custom, 'Should preserve existing custom Cursor MCP servers');
+      assert.ok(mcpConfig.mcpServers.github, 'Should merge bundled GitHub MCP server');
+      assert.ok(mcpConfig.mcpServers.playwright, 'Should merge bundled Playwright MCP server');
     } finally {
       cleanup(homeDir);
       cleanup(projectDir);
