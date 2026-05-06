@@ -67,6 +67,14 @@ Keep this file short: put durable operating rules here, not copied framework doc
 - Run ecosystem audits when dependencies or lockfiles change, before publish/deploy/release, and during explicit security reviews when package manifests exist: `npm audit`, `pnpm audit`, `pip-audit`, `safety`, `cargo audit`, `govulncheck`, or `bundler-audit`.
 - If audit tooling is unavailable, report residual dependency risk.
 
+## External Action Boundaries
+
+Treat networked tools as read-only by default. Search, inspect, and draft freely within the user's requested scope, but require explicit user approval before posting, publishing, pushing, merging, opening paid jobs, dispatching remote agents, changing third-party resources, or modifying credentials.
+
+When approval is ambiguous, produce a local plan or draft artifact instead of taking the external action. Preserve user config and private state unless the user specifically asks for a scoped change.
+
+## Multi-Agent Support
+
 ## Code Quality
 
 - Keep functions and files focused.

@@ -179,6 +179,44 @@ Most Claude Code users should use exactly one install path:
 
 If you already layered multiple installs and things look duplicated, skip straight to [Reset / Uninstall ECC](#reset--uninstall-ecc).
 
+### Low-context / no-hooks path
+
+If hooks feel too global or you only want ECC's rules, agents, commands, and core workflow skills, skip the plugin and use the minimal manual profile:
+
+```bash
+./install.sh --profile minimal --target claude
+```
+
+```powershell
+.\install.ps1 --profile minimal --target claude
+# or
+npx ecc-install --profile minimal --target claude
+```
+
+This profile intentionally excludes `hooks-runtime`.
+
+If you want the normal core profile but need hooks off, use:
+
+```bash
+./install.sh --profile core --without baseline:hooks --target claude
+```
+
+Add hooks later only if you want runtime enforcement:
+
+```bash
+./install.sh --target claude --modules hooks-runtime
+```
+
+### Find the right components first
+
+If you are not sure which ECC profile or component to install, ask the packaged advisor from any project:
+
+```bash
+npx ecc consult "security reviews" --target claude
+```
+
+It returns matching components, related profiles, and preview/install commands. Use the preview command before installing if you want to inspect the exact file plan.
+
 ### Step 1: Install the Plugin (Recommended)
 
 > NOTE: The plugin is convenient, but the OSS installer below is still the most reliable path if your Claude Code build has trouble resolving self-hosted marketplace entries.
@@ -207,7 +245,7 @@ This is intentional. Anthropic marketplace/plugin installs are keyed by a canoni
 >
 > If you already installed ECC via `/plugin install`, **do not run `./install.sh --profile full`, `.\install.ps1 --profile full`, or `npx ecc-install --profile full` afterward**. The plugin already loads ECC skills, commands, and hooks. Running the full installer after a plugin install copies those same surfaces into your user directories and can create duplicate skills plus duplicate runtime behavior.
 >
-> For plugin installs, manually copy only the `rules/` directories you want. Start with `rules/common` plus one language or framework pack you actually use. Do not copy every rules directory unless you explicitly want all of that context in Claude.
+> For plugin installs, manually copy only the `rules/` directories you want under `~/.claude/rules/ecc/`. Start with `rules/common` plus one language or framework pack you actually use. Do not copy every rules directory unless you explicitly want all of that context in Claude.
 >
 > Use the full installer only when you are doing a fully manual ECC install instead of the plugin path.
 >
@@ -221,10 +259,10 @@ cd everything-claude-code
 # Install dependencies (pick your package manager)
 npm install        # or: pnpm install | yarn install | bun install
 
-# Plugin install path: copy only rules
-mkdir -p ~/.claude/rules
-cp -R rules/common ~/.claude/rules/
-cp -R rules/typescript ~/.claude/rules/
+# Plugin install path: copy only ECC rules into an ECC-owned namespace
+mkdir -p ~/.claude/rules/ecc
+cp -R rules/common ~/.claude/rules/ecc/
+cp -R rules/typescript ~/.claude/rules/ecc/
 
 # Fully manual ECC install path (use this instead of /plugin install)
 # ./install.sh --profile full
@@ -233,10 +271,10 @@ cp -R rules/typescript ~/.claude/rules/
 ```powershell
 # Windows PowerShell
 
-# Plugin install path: copy only rules
-New-Item -ItemType Directory -Force -Path "$HOME/.claude/rules" | Out-Null
-Copy-Item -Recurse rules/common "$HOME/.claude/rules/"
-Copy-Item -Recurse rules/typescript "$HOME/.claude/rules/"
+# Plugin install path: copy only ECC rules into an ECC-owned namespace
+New-Item -ItemType Directory -Force -Path "$HOME/.claude/rules/ecc" | Out-Null
+Copy-Item -Recurse rules/common "$HOME/.claude/rules/ecc/"
+Copy-Item -Recurse rules/typescript "$HOME/.claude/rules/ecc/"
 
 # Fully manual ECC install path (use this instead of /plugin install)
 # .\install.ps1 --profile full
@@ -265,7 +303,7 @@ If you choose this path, stop there. Do not also run `/plugin install`.
 
 If ECC feels duplicated, intrusive, or broken, do not keep reinstalling it on top of itself.
 
-- **Plugin path:** remove the plugin from Claude Code, then delete the specific rule folders you manually copied under `~/.claude/rules/`.
+- **Plugin path:** remove the plugin from Claude Code, then delete the specific rule folders you manually copied under `~/.claude/rules/ecc/`.
 - **Manual installer / CLI path:** from the repo root, preview removal first:
 
 ```bash
@@ -302,8 +340,8 @@ If you stacked methods, clean up in this order:
 # Skills are the primary workflow surface.
 # Existing slash-style command names still work while ECC migrates off commands/.
 
-# Plugin install uses the namespaced form
-/ecc:plan "Add user authentication"
+# Plugin install uses the canonical namespaced form
+/everything-claude-code:plan "Add user authentication"
 
 # Manual install keeps the shorter slash form:
 # /plan "Add user authentication"
@@ -390,6 +428,12 @@ export ECC_HOOK_PROFILE=standard
 
 # Comma-separated hook IDs to disable
 export ECC_DISABLED_HOOKS="pre:bash:tmux-reminder,post:edit:typecheck"
+
+# Cap SessionStart additional context (default: 8000 chars)
+export ECC_SESSION_START_MAX_CHARS=4000
+
+# Disable SessionStart additional context entirely for low-context/local-model setups
+export ECC_SESSION_START_CONTEXT=off
 ```
 
 ---
@@ -536,7 +580,7 @@ everything-claude-code/
 |   |-- verify.md           # /verify - Prefer the verification-loop skill
 |   |-- orchestrate.md      # /orchestrate - Prefer dmux-workflows or multi-workflow
 |
-|-- rules/            # Always-follow guidelines (copy to ~/.claude/rules/)
+|-- rules/            # Always-follow guidelines (copy to ~/.claude/rules/ecc/)
 |   |-- README.md            # Structure overview and installation guide
 |   |-- common/              # Language-agnostic principles
 |   |   |-- coding-style.md    # Immutability, file organization
@@ -753,17 +797,17 @@ This gives you instant access to all commands, agents, skills, and hooks.
 > git clone https://github.com/affaan-m/everything-claude-code.git
 >
 > # Option A: User-level rules (applies to all projects)
-> mkdir -p ~/.claude/rules
-> cp -r everything-claude-code/rules/common ~/.claude/rules/
-> cp -r everything-claude-code/rules/typescript ~/.claude/rules/   # pick your stack
-> cp -r everything-claude-code/rules/python ~/.claude/rules/
-> cp -r everything-claude-code/rules/golang ~/.claude/rules/
-> cp -r everything-claude-code/rules/php ~/.claude/rules/
+> mkdir -p ~/.claude/rules/ecc
+> cp -r everything-claude-code/rules/common ~/.claude/rules/ecc/
+> cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/   # pick your stack
+> cp -r everything-claude-code/rules/python ~/.claude/rules/ecc/
+> cp -r everything-claude-code/rules/golang ~/.claude/rules/ecc/
+> cp -r everything-claude-code/rules/php ~/.claude/rules/ecc/
 >
 > # Option B: Project-level rules (applies to current project only)
-> mkdir -p .claude/rules
-> cp -r everything-claude-code/rules/common .claude/rules/
-> cp -r everything-claude-code/rules/typescript .claude/rules/     # pick your stack
+> mkdir -p .claude/rules/ecc
+> cp -r everything-claude-code/rules/common .claude/rules/ecc/
+> cp -r everything-claude-code/rules/typescript .claude/rules/ecc/     # pick your stack
 > ```
 
 ---
@@ -780,21 +824,22 @@ git clone https://github.com/affaan-m/everything-claude-code.git
 cp everything-claude-code/agents/*.md ~/.claude/agents/
 
 # Copy rules directories (common + language-specific)
-mkdir -p ~/.claude/rules
-cp -r everything-claude-code/rules/common ~/.claude/rules/
-cp -r everything-claude-code/rules/typescript ~/.claude/rules/   # pick your stack
-cp -r everything-claude-code/rules/python ~/.claude/rules/
-cp -r everything-claude-code/rules/golang ~/.claude/rules/
-cp -r everything-claude-code/rules/php ~/.claude/rules/
+mkdir -p ~/.claude/rules/ecc
+cp -r everything-claude-code/rules/common ~/.claude/rules/ecc/
+cp -r everything-claude-code/rules/typescript ~/.claude/rules/ecc/   # pick your stack
+cp -r everything-claude-code/rules/python ~/.claude/rules/ecc/
+cp -r everything-claude-code/rules/golang ~/.claude/rules/ecc/
+cp -r everything-claude-code/rules/php ~/.claude/rules/ecc/
 
 # Copy skills first (primary workflow surface)
 # Recommended (new users): core/general skills only
-cp -r everything-claude-code/.agents/skills/* ~/.claude/skills/
-cp -r everything-claude-code/skills/search-first ~/.claude/skills/
+mkdir -p ~/.claude/skills/ecc
+cp -r everything-claude-code/.agents/skills/* ~/.claude/skills/ecc/
+cp -r everything-claude-code/skills/search-first ~/.claude/skills/ecc/
 
 # Optional: add niche/framework-specific skills only when needed
 # for s in django-patterns django-tdd laravel-patterns springboot-patterns; do
-# cp -r everything-claude-code/skills/$s ~/.claude/skills/
+# cp -r everything-claude-code/skills/$s ~/.claude/skills/ecc/
 # done
 
 # Optional: keep maintained slash-command compatibility during migration
@@ -829,7 +874,11 @@ Windows note: the Claude config directory is `%USERPROFILE%\\.claude`, not `~/cl
 
 #### Configure MCPs
 
-Copy desired MCP server definitions from `mcp-configs/mcp-servers.json` into your official Claude Code config in `~/.claude/settings.json`, or into a project-scoped `.mcp.json` if you want repo-local MCP access.
+Claude plugin installs intentionally do not auto-enable ECC's bundled MCP server definitions. This avoids overlong plugin MCP tool names on strict third-party gateways while keeping manual MCP setup available.
+
+Use Claude Code's `/mcp` command or CLI-managed MCP setup for live Claude Code server changes. Use `/mcp` for Claude Code runtime disables; Claude Code persists those choices in `~/.claude.json`.
+
+For repo-local MCP access, copy desired MCP server definitions from `mcp-configs/mcp-servers.json` into a project-scoped `.mcp.json`.
 
 If you already run your own copies of ECC-bundled MCPs, set:
 
@@ -837,7 +886,7 @@ If you already run your own copies of ECC-bundled MCPs, set:
 export ECC_DISABLED_MCPS="github,context7,exa,playwright,sequential-thinking,memory"
 ```
 
-ECC-managed install and Codex sync flows will skip or remove those bundled servers instead of re-adding duplicates.
+ECC-managed install and Codex sync flows will skip or remove those bundled servers instead of re-adding duplicates. `ECC_DISABLED_MCPS` is an ECC install/sync filter, not a live Claude Code toggle.
 
 **Important:** Replace `YOUR_*_HERE` placeholders with your actual API keys.
 
@@ -912,8 +961,8 @@ Not sure where to start? Use this quick reference. Skills are the canonical work
 
 | I want to... | Use this surface | Agent used |
 |--------------|-----------------|------------|
-| Plan a new feature | `/ecc:plan "Add auth"` | planner |
-| Design system architecture | `/ecc:plan` + architect agent | architect |
+| Plan a new feature | `/everything-claude-code:plan "Add auth"` | planner |
+| Design system architecture | `/everything-claude-code:plan` + architect agent | architect |
 | Write code with tests first | `tdd-workflow` skill | tdd-guide |
 | Review code I just wrote | `/code-review` | code-reviewer |
 | Fix a failing build | `/build-fix` | build-error-resolver |
@@ -932,7 +981,7 @@ Slash forms below are shown where they remain part of the maintained command sur
 
 **Starting a new feature:**
 ```
-/ecc:plan "Add user authentication with OAuth"
+/everything-claude-code:plan "Add user authentication with OAuth"
                                               → planner creates implementation blueprint
 tdd-workflow skill                            → tdd-guide enforces write-tests-first
 /code-review                                  → code-reviewer checks your work
@@ -1000,15 +1049,9 @@ Official references:
 <details>
 <summary><b>My context window is shrinking / Claude is running out of context</b></summary>
 
-Too many MCP servers eat your context. Each MCP tool description consumes tokens from your 200k window, potentially reducing it to ~70k.
+Too many MCP servers eat your context. Each MCP tool description consumes tokens from your 200k window, potentially reducing it to ~70k. SessionStart context is capped at 8000 characters by default; lower it with `ECC_SESSION_START_MAX_CHARS=4000` or disable it with `ECC_SESSION_START_CONTEXT=off` for local-model or low-context setups.
 
-**Fix:** Disable unused MCPs per project:
-```json
-// In your project's .claude/settings.json
-{
-  "disabledMcpServers": ["supabase", "railway", "vercel"]
-}
-```
+**Fix:** Disable unused MCPs from Claude Code with `/mcp`. Claude Code writes those runtime choices to `~/.claude.json`; `.claude/settings.json` and `.claude/settings.local.json` are not reliable toggles for already-loaded MCP servers.
 
 Keep under 10 MCPs enabled and under 80 tools active.
 </details>
@@ -1023,8 +1066,8 @@ Yes. Use Option 2 (manual installation) and copy only what you need:
 cp everything-claude-code/agents/*.md ~/.claude/agents/
 
 # Just rules
-mkdir -p ~/.claude/rules/
-cp -r everything-claude-code/rules/common ~/.claude/rules/
+mkdir -p ~/.claude/rules/ecc/
+cp -r everything-claude-code/rules/common ~/.claude/rules/ecc/
 ```
 
 Each component is fully independent.
@@ -1103,7 +1146,7 @@ These are not bundled with ECC and are not audited by this repo, but they are wo
 
 ## Cursor IDE Support
 
-ECC provides **full Cursor IDE support** with hooks, rules, agents, skills, commands, and MCP configs adapted for Cursor's native format.
+ECC provides Cursor IDE support with hooks, rules, agents, skills, commands, and MCP configs adapted for Cursor's project layout.
 
 ### Quick Start (Cursor)
 
@@ -1126,10 +1169,16 @@ ECC provides **full Cursor IDE support** with hooks, rules, agents, skills, comm
 | Hook Events | 15 | sessionStart, beforeShellExecution, afterFileEdit, beforeMCPExecution, beforeSubmitPrompt, and 10 more |
 | Hook Scripts | 16 | Thin Node.js scripts delegating to `scripts/hooks/` via shared adapter |
 | Rules | 34 | 9 common (alwaysApply) + 25 language-specific (TypeScript, Python, Go, Swift, PHP) |
-| Agents | Shared | Via AGENTS.md at root (read by Cursor natively) |
-| Skills | Shared + Bundled | Via AGENTS.md at root and `.cursor/skills/` for translated additions |
+| Agents | 48 | `.cursor/agents/ecc-*.md` when installed; prefixed to avoid collisions with user or marketplace agents |
+| Skills | Shared + Bundled | `.cursor/skills/` for translated additions |
 | Commands | Shared | `.cursor/commands/` if installed |
 | MCP Config | Shared | `.cursor/mcp.json` if installed |
+
+### Cursor Loading Notes
+
+ECC does not install root `AGENTS.md` into `.cursor/`. Cursor treats nested `AGENTS.md` files as directory context, so copying ECC's repo identity into a host project would pollute that project.
+
+Cursor-native loading behavior can vary by Cursor build. ECC installs agents as `.cursor/agents/ecc-*.md`; if your Cursor build does not expose project agents, those files still work as explicit reference definitions instead of hidden global prompt context.
 
 ### Hook Architecture (DRY Adapter Pattern)
 
@@ -1480,7 +1529,8 @@ The `strategic-compact` skill (included in this plugin) suggests `/compact` at l
 
 - Keep under 10 MCPs enabled per project
 - Keep under 80 tools active
-- Use `disabledMcpServers` in project config to disable unused ones
+- Use `/mcp` to disable unused Claude Code MCP servers; those runtime choices persist in `~/.claude.json`
+- Use `ECC_DISABLED_MCPS` only to filter ECC-generated MCP configs during install/sync flows
 
 ### Agent Teams Cost Warning
 

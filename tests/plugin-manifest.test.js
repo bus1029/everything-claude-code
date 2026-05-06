@@ -178,6 +178,14 @@ test('README.zh-CN.md latest release heading matches package.json', () => {
   );
 });
 
+test('docs/zh-CN/README.md latest release heading matches package.json', () => {
+  const source = fs.readFileSync(zhCnReadmePath, 'utf8');
+  assert.ok(
+    source.includes(`### v${expectedVersion} `),
+    'Expected docs/zh-CN/README.md to advertise the current release heading',
+  );
+});
+
 // ── Claude plugin manifest ────────────────────────────────────────────────────
 console.log('\n=== .claude-plugin/plugin.json ===\n');
 
@@ -215,6 +223,24 @@ test('claude plugin.json skills is an array', () => {
 
 test('claude plugin.json commands is an array', () => {
   assert.ok(Array.isArray(claudePlugin.commands), 'Expected commands to be an array');
+});
+
+test('claude plugin.json disables bundled MCP servers for provider tool-name compatibility', () => {
+  const reportedOverlongToolName = `mcp__plugin_${claudePlugin.name}_github__create_pull_request_review`;
+
+  assert.ok(
+    reportedOverlongToolName.length > 64,
+    'Expected the reported GitHub MCP tool name to exceed strict provider limits without the MCP opt-out',
+  );
+  assert.ok(
+    Object.prototype.hasOwnProperty.call(claudePlugin, 'mcpServers'),
+    'Expected mcpServers to be explicitly declared so Claude Code does not auto-load root .mcp.json',
+  );
+  assert.deepStrictEqual(
+    claudePlugin.mcpServers,
+    {},
+    'Claude plugin installs must not auto-bundle root MCP servers; document/manual MCP install remains supported',
+  );
 });
 
 test('claude plugin.json does NOT have explicit hooks declaration', () => {
