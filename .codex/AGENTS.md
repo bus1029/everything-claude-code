@@ -5,14 +5,12 @@ Keep this file short: put durable operating rules here, not copied framework doc
 
 ## Shell
 
-- Use `rtk` for shell commands when available.
-- Examples: `rtk git status`, `rtk cargo test`, `rtk npm run build`, `rtk pytest -q`.
-- Use `rtk proxy <cmd>` only when raw, unfiltered command output is required.
-- Use raw/proxy output for security scans, diffs, and audits when filtering could hide findings.
-- Do not persist or forward raw secret-bearing output to logs, memory, MCP tools, or final responses.
-- Redact sensitive output before reporting it.
-- If `rtk` is unavailable or breaks a command, run it directly and note why.
-- Useful checks: `command -v rtk`, `rtk --version`, `rtk gain`, `rtk gain --history`.
+| Task Type | Recommended Model |
+|-----------|------------------|
+| Routine coding, tests, formatting | GPT 5.5 |
+| Complex features, architecture | GPT 5.5 |
+| Debugging, refactoring | GPT 5.5 |
+| Security review | GPT 5.5 |
 
 ## Working Style
 
