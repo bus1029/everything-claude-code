@@ -53,13 +53,3 @@ jobs:
 
       - name: Validate workflow hardening rules
         run: node scripts/ci/validate-workflow-security.js
-
-      - name: Upload IOC report
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: supply-chain-ioc-report
-          path: |
-            artifacts/supply-chain-ioc-report.json
-            artifacts/supply-chain-advisory-sources.json
-          retention-days: 14
