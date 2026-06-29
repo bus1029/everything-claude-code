@@ -8,6 +8,21 @@ const { spawn } = require('child_process');
 const { buildControlPaneAction } = require('./actions');
 const { buildControlPaneSnapshot, resolveControlPaneConfig } = require('./state');
 const { renderControlPaneHtml } = require('./ui');
+const { renderProximityVizHtml } = require('./proximity-viz');
+const { claimWorkItem, moveWorkItem } = require('./work-item-mutations');
+
+// Run a single write against the local work-item store, then close it. Kept
+// thin so the loopback-only server can mutate the JIT board without holding a
+// long-lived handle.
+async function withStateStore(stateDbPath, fn) {
+  const { createStateStore } = require('../state-store');
+  const store = await createStateStore({ dbPath: stateDbPath });
+  try {
+    return await fn(store);
+  } finally {
+    store.close();
+  }
+}
 
 const LOOPBACK_HOSTNAMES = new Set(['127.0.0.1', 'localhost', '[::1]', '::1']);
 
@@ -55,7 +70,7 @@ function usage() {
     '  --state-db <path>  Read agent work items from an ECC state-store database',
     '  --read-only        Disable action execution endpoints',
     '  --no-open          Do not open a browser after the server starts',
-    '  --help             Show this help',
+    '  --help             Show this help'
   ].join('\n');
 }
 
@@ -92,7 +107,7 @@ function parseArgs(argv) {
     configPath: valueAfter(args, '--config'),
     query: valueAfter(args, '--query') || '',
     openBrowser: !args.includes('--no-open'),
-    allowActions: !args.includes('--read-only'),
+    allowActions: !args.includes('--read-only')
   };
 }
 
@@ -100,7 +115,7 @@ function sendJson(res, statusCode, payload) {
   const body = JSON.stringify(payload, null, 2);
   res.writeHead(statusCode, {
     'content-type': 'application/json; charset=utf-8',
-    'cache-control': 'no-store',
+    'cache-control': 'no-store'
   });
   res.end(`${body}\n`);
 }
@@ -108,7 +123,7 @@ function sendJson(res, statusCode, payload) {
 function sendText(res, statusCode, body, contentType = 'text/plain; charset=utf-8') {
   res.writeHead(statusCode, {
     'content-type': contentType,
-    'cache-control': 'no-store',
+    'cache-control': 'no-store'
   });
   res.end(body);
 }
@@ -135,7 +150,7 @@ function runAction(action, options = {}) {
     const child = spawn(action.command, action.args, {
       cwd: action.cwd,
       env: process.env,
-      stdio: ['ignore', 'pipe', 'pipe'],
+      stdio: ['ignore', 'pipe', 'pipe']
     });
     let stdout = '';
     let stderr = '';
@@ -163,7 +178,7 @@ function runAction(action, options = {}) {
         code: null,
         error: error.message,
         stdout: boundedOutput(stdout),
-        stderr: boundedOutput(stderr),
+        stderr: boundedOutput(stderr)
       });
     });
     child.on('close', (code, signal) => {
@@ -177,7 +192,7 @@ function runAction(action, options = {}) {
         code,
         signal,
         stdout: boundedOutput(stdout),
-        stderr: boundedOutput(stderr),
+        stderr: boundedOutput(stderr)
       });
     });
   });
@@ -193,7 +208,7 @@ function createControlPaneServer(options = {}) {
     configPath: options.configPath,
     dbPath: options.dbPath,
     stateDbPath: options.stateDbPath,
-    env: options.env || process.env,
+    env: options.env || process.env
   });
   const baseQuery = options.query || '';
   const allowedHostnames = buildAllowedHostnames(host);
@@ -232,7 +247,7 @@ function createControlPaneServer(options = {}) {
           repoRoot,
           dbPath: resolvedConfig.dbPath,
           stateDbPath: resolvedConfig.stateDbPath,
-          allowActions,
+          allowActions
         });
         return;
       }
@@ -245,9 +260,28 @@ function createControlPaneServer(options = {}) {
           config: resolvedConfig,
           query: requestUrl.searchParams.get('query') || baseQuery,
           limit: requestUrl.searchParams.get('limit') || 12,
-          allowActions,
+          allowActions
         });
         sendJson(res, 200, snapshot);
+        return;
+      }
+
+      // 3D agent-airspace visualization (Layer 4 observability).
+      if (req.method === 'GET' && requestUrl.pathname === '/proximity') {
+        sendText(res, 200, renderProximityVizHtml(), 'text/html; charset=utf-8');
+        return;
+      }
+
+      if (req.method === 'GET' && requestUrl.pathname === '/api/proximity') {
+        const snapshot = await buildControlPaneSnapshot({
+          repoRoot,
+          dbPath: resolvedConfig.dbPath,
+          stateDbPath: resolvedConfig.stateDbPath,
+          config: resolvedConfig,
+          allowActions,
+          includeProximity: true
+        });
+        sendJson(res, 200, snapshot.proximity || { enabled: true, advisories: [], positions: [], links: [], counts: {} });
         return;
       }
 
@@ -256,7 +290,7 @@ function createControlPaneServer(options = {}) {
         if (!allowActions) {
           sendJson(res, 403, {
             ok: false,
-            error: 'Control-pane action execution is disabled by --read-only.',
+            error: 'Control-pane action execution is disabled by --read-only.'
           });
           return;
         }
@@ -265,7 +299,7 @@ function createControlPaneServer(options = {}) {
         const action = buildControlPaneAction(decodeURIComponent(actionMatch[1]), {
           repoRoot,
           query: body.query || baseQuery,
-          limit: body.limit || 25,
+          limit: body.limit || 25
         });
 
         if (!action.executable) {
@@ -273,7 +307,7 @@ function createControlPaneServer(options = {}) {
             ok: false,
             action: action.id,
             error: 'This action is copy-only and cannot be executed from the browser.',
-            commandLine: action.commandLine,
+            commandLine: action.commandLine
           });
           return;
         }
@@ -281,8 +315,39 @@ function createControlPaneServer(options = {}) {
         const result = await runAction(action);
         sendJson(res, result.ok ? 200 : 500, {
           ...result,
-          commandLine: action.commandLine,
+          commandLine: action.commandLine
         });
+        return;
+      }
+
+      // Interactive JIT board: claim / move a work item from the browser.
+      const claimMatch = requestUrl.pathname.match(/^\/api\/work-items\/([^/]+)\/claim$/);
+      const moveMatch = requestUrl.pathname.match(/^\/api\/work-items\/([^/]+)\/move$/);
+      if (req.method === 'POST' && (claimMatch || moveMatch)) {
+        if (!allowActions) {
+          sendJson(res, 403, {
+            ok: false,
+            error: 'Board edits are disabled by --read-only.'
+          });
+          return;
+        }
+        const id = decodeURIComponent((claimMatch || moveMatch)[1]);
+        const body = await readRequestJson(req);
+        try {
+          const result = await withStateStore(resolvedConfig.stateDbPath, store =>
+            claimMatch
+              ? claimWorkItem(store, {
+                  id,
+                  owner: body.owner,
+                  assigneeKind: body.as || body.assigneeKind,
+                  sessionId: body.sessionId
+                })
+              : moveWorkItem(store, { id, lane: body.lane })
+          );
+          sendJson(res, 200, { ok: true, ...result });
+        } catch (mutationError) {
+          sendJson(res, 400, { ok: false, error: mutationError.message });
+        }
         return;
       }
 
@@ -290,7 +355,7 @@ function createControlPaneServer(options = {}) {
     } catch (error) {
       sendJson(res, 500, {
         ok: false,
-        error: error.message,
+        error: error.message
       });
     }
   });
@@ -319,7 +384,7 @@ function createControlPaneServer(options = {}) {
           else resolve();
         });
       });
-    },
+    }
   };
 }
 
@@ -330,5 +395,5 @@ module.exports = {
   isAllowedHostHeader,
   isAllowedOrigin,
   buildAllowedHostnames,
-  usage,
+  usage
 };
