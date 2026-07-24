@@ -80,30 +80,51 @@ ECC v2.0.0 adds the public Hermes operator story on top of that reusable layer: 
 </tr>
 </table>
 
-<sub>**OSS stays free.** This repo is MIT-licensed forever. ECC Pro is the hosted GitHub App for private repos. <a href="https://github.com/sponsors/affaan-m">Sponsors</a> and <a href="https://ecc.tools/pricing">Pro subscribers</a> fund the work — that's why a single maintainer ships weekly across 7 harnesses.</sub>
+<sub>**OSS stays free.** This repo is MIT-licensed forever. ECC Pro is the hosted GitHub App for private repos. <a href="https://github.com/sponsors/affaan-m">Sponsors</a> and <a href="https://ecc.tools/pricing">Pro subscribers</a> fund the work. That's why a single maintainer ships weekly across 7 harnesses.</sub>
 
 <div align="center">
 
-<sub><strong>Business sponsors</strong></sub>
+<sub><strong>Partners &amp; sponsors</strong></sub>
 
 <table>
 <tr>
-<td align="center" width="220">
+<td align="center" width="20%">
   <a href="https://www.coderabbit.ai">
-    <img src="assets/images/sponsors/coderabbit.png" width="96" alt="CodeRabbit logo" /><br />
+    <img src="assets/images/sponsors/coderabbit.png" height="56" alt="CodeRabbit logo" /><br />
     <strong>CodeRabbit</strong>
   </a>
 </td>
-<td align="center" width="220">
+<td align="center" width="20%">
   <a href="https://www.greptile.com/go/ecc">
-    <img src="assets/images/sponsors/greptile.png" width="96" alt="Greptile logo" /><br />
+    <img src="assets/images/sponsors/greptile.png" height="56" alt="Greptile logo" /><br />
     <strong>Greptile</strong>
   </a>
 </td>
-<td align="center" width="220">
+<td align="center" width="20%">
   <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=ECC">
-    <img src="assets/images/sponsors/atlascloud.png" width="96" alt="Atlas Cloud logo" /><br />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/images/sponsors/atlascloud-dark.svg" />
+      <img src="assets/images/sponsors/atlascloud.svg" height="28" alt="Atlas Cloud logo" />
+    </picture><br />
     <strong>Atlas Cloud</strong>
+  </a>
+</td>
+<td align="center" width="20%">
+  <a href="https://www.moonshot.ai">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/images/sponsors/moonshot-dark.png" />
+      <img src="assets/images/sponsors/moonshot.png" height="44" alt="Moonshot AI Kimi logo" />
+    </picture><br />
+    <strong>Moonshot AI</strong>
+  </a>
+</td>
+<td align="center" width="20%">
+  <a href="https://compute.itomarkets.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/images/sponsors/ito-dark.svg" />
+      <img src="assets/images/sponsors/ito.svg" height="44" alt="Itô Markets logo" />
+    </picture><br />
+    <strong>Itô</strong>
   </a>
 </td>
 </tr>
@@ -439,7 +460,7 @@ If you stacked methods, clean up in this order:
 /plugin list ecc@ecc
 ```
 
-**That's it!** You now have access to 67 agents, 271 skills, and 92 legacy command shims.
+**That's it!** You now have access to 67 agents, 279 skills, and 94 legacy command shims.
 
 ### Dashboard GUI
 
@@ -527,6 +548,12 @@ export ECC_SESSION_START_CONTEXT=off
 # Session-tmp retention window in days (default: 30).
 # Set to 0, off, false, disabled, never, or none to keep all sessions (disable pruning).
 export ECC_SESSION_RETENTION_DAYS=14
+
+# Cap how many learned instincts SessionStart injects into context (default: 6)
+export ECC_MAX_INJECTED_INSTINCTS=6
+
+# Minimum confidence an instinct needs to be injected, 0-1 (default: 0.7)
+export ECC_INSTINCT_CONFIDENCE_THRESHOLD=0.7
 
 # Keep context/scope/loop warnings but suppress API-rate cost estimates
 export ECC_CONTEXT_MONITOR_COST_WARNINGS=off
@@ -1182,6 +1209,27 @@ claude
 
 If your gateway remaps model names, configure that in Claude Code rather than in ECC. ECC's hooks, skills, commands, and rules are model-provider agnostic once the `claude` CLI is already working.
 
+Run or self-host any open-source model behind that gateway using separate compute and serving setup. If you need GPU capacity, [Itô](https://compute.itomarkets.com) is ECC's preferred compute sponsor; any GPU provider works. That sponsorship link is passive: it does not invoke an RFQ, reserve capacity, provision compute, or configure serving. Separately, the opt-in `ecc ito find` bridge invokes the explicitly configured canonical Itô CLI and submits a live authenticated RFQ; it does not reserve capacity. Managed inference through Itô is not live yet.
+
+### Itô compute CLI bridge
+
+`ecc ito` delegates to the separately installed canonical Itô client; ECC does
+not maintain a second API client or browser handoff. The available operations
+are `ecc ito auth`, `ecc ito find`, and `ecc ito status`. The matching MCP tools
+are `ito_auth`, `ito_find`, and `ito_status`.
+
+The `ito-compute-cli` package is currently unpublished. Build it locally from the Itô runtime repo (private while the desk hardens;
+design partners get access) under `cli/ito-compute-cli`, run `npm ci` and `npm run check`, then set
+`ECC_ITO_CLI_EXECUTABLE` to that build's absolute `dist/bin/ito.js` path.
+Inject `ITO_API_KEY` from 1Password or the launching environment. ECC does not
+discover this credential-bearing client through `PATH`. See the [`ito-compute`
+skill](skills/ito-compute/SKILL.md) for the full RFQ authority and MCP setup
+contract.
+
+`find` submits a live authenticated RFQ. It does not reserve capacity. ECC
+exposes no quote lock, purchase, workload, node-evaluation, or inference path,
+and it never replaces a missing client or failed live call with a local result.
+
 Official references:
 - [Claude Code LLM gateway docs](https://docs.anthropic.com/en/docs/claude-code/llm-gateway)
 - [Claude Code model configuration docs](https://docs.anthropic.com/en/docs/claude-code/model-config)
@@ -1369,7 +1417,7 @@ alwaysApply: false
 
 ## Codex macOS App + CLI Support
 
-ECC provides **first-class Codex support** for both the macOS app and CLI, with a reference configuration, Codex-specific AGENTS.md supplement, and shared skills.
+ECC provides **first-class Codex support** for both the macOS app and CLI, with a reference configuration, Codex-specific AGENTS.md supplement, and shared skills. For repo navigation, surface ownership, and PR diff packet guidance, start with [`docs/CODEX-NAVIGATION-GUIDE.md`](docs/CODEX-NAVIGATION-GUIDE.md).
 
 ### Quick Start (Codex App + CLI)
 
@@ -1527,8 +1575,8 @@ The configuration is automatically detected from `.opencode/opencode.json`.
 | Feature | Claude Code         | OpenCode | Status |
 |---------|---------------------|----------|--------|
 | Agents | PASS: 67 agents     | PASS: 12 agents | **Claude Code leads** |
-| Commands | PASS: 92 commands   | PASS: 35 commands | **Claude Code leads** |
-| Skills | PASS: 271 skills    | PASS: 37 skills | **Claude Code leads** |
+| Commands | PASS: 94 commands   | PASS: 35 commands | **Claude Code leads** |
+| Skills | PASS: 279 skills    | PASS: 37 skills | **Claude Code leads** |
 | Hooks | PASS: 8 event types | PASS: 11 events | **OpenCode has more!** |
 | Rules | PASS: 29 rules      | PASS: 13 instructions | **Claude Code leads** |
 | MCP Servers | PASS: 14 servers    | PASS: Full | **Full parity** |
@@ -1688,8 +1736,8 @@ ECC is the **first plugin to maximize every major AI coding tool**. Here's how e
 | Feature | Claude Code           | Cursor IDE | Codex CLI | OpenCode | GitHub Copilot |
 |---------|-----------------------|------------|-----------|----------|----------------|
 | **Agents** | 67                    | Shared (AGENTS.md) | Shared (AGENTS.md) | 12 | N/A |
-| **Commands** | 92                    | Shared | Instruction-based | 35 | 5 prompts |
-| **Skills** | 271                   | Shared | 10 (native format) | 37 | Via instructions |
+| **Commands** | 94                    | Shared | Instruction-based | 35 | 5 prompts |
+| **Skills** | 279                   | Shared | 10 (native format) | 37 | Via instructions |
 | **Hook Events** | 8 types               | 15 types | None yet | 11 types | None |
 | **Hook Scripts** | 20+ scripts           | 16 scripts (DRY adapter) | N/A | Plugin hooks | N/A |
 | **Rules** | 34 (common + lang)    | 34 (YAML frontmatter) | Instruction-based | 13 instructions | 1 always-on file |
@@ -1832,7 +1880,7 @@ ECC takes supply-chain and agent safety seriously.
 
 ## Sponsors
 
-Featured sponsors are at the top of this README — full list and tiers in [SPONSORS.md](SPONSORS.md). [Become a sponsor](https://github.com/sponsors/affaan-m).
+Business sponsors: [CodeRabbit](https://www.coderabbit.ai) · [Greptile](https://www.greptile.com/go/ecc) · [Atlas Cloud](https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=ECC) · [Moonshot AI (Kimi)](https://www.moonshot.ai) · [Itô Markets](https://itomarkets.com). Logos are at the top of this README; the full roster and tiers are in [SPONSORS.md](SPONSORS.md). [Become a sponsor](https://github.com/sponsors/affaan-m).
 
 ---
 

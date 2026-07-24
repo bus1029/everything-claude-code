@@ -3,7 +3,10 @@
 These instructions apply to Codex sessions that load `/Users/seokhyunbae_1/.codex`.
 Keep this file short: put durable operating rules here, not copied framework docs or long tool inventories.
 
-## Shell
+For repo navigation, surface ownership, and PR diff packet guidance, read
+`docs/CODEX-NAVIGATION-GUIDE.md` after this supplement.
+
+## Model Recommendations
 
 | Task Type | Recommended Model |
 |-----------|------------------|

@@ -189,9 +189,17 @@
     {
       "id": "capability:prediction-markets",
       "family": "capability",
-      "description": "Public, non-advisory prediction-market and Itô basket research workflows with gated Itô API access.",
+      "description": "Public, non-advisory prediction-market and Ito basket research workflows with gated Ito API access.",
       "modules": [
         "prediction-market-skills"
+      ]
+    },
+    {
+      "id": "capability:ito-compute",
+      "family": "capability",
+      "description": "Authenticated Itô GPU inventory, RFQ, and status workflows through the separately installed canonical CLI.",
+      "modules": [
+        "ito-compute"
       ]
     },
     {
@@ -452,6 +460,14 @@
       "description": "Production machine-learning engineering reviewer for ML pipelines, evals, serving, monitoring, and rollback.",
       "modules": [
         "agents-core"
+      ]
+    },
+    {
+      "id": "skill:plan-canvas",
+      "family": "skill",
+      "description": "Browser review canvas for plan artifacts: annotate, chat, approve or request changes.",
+      "modules": [
+        "workflow-quality"
       ]
     },
     {

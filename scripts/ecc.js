@@ -3,6 +3,8 @@
 const { spawnSync } = require('child_process');
 const path = require('path');
 const { listAvailableLanguages } = require('./lib/install-executor');
+const { getComputeSponsorCopy } = require('./lib/compute-sponsor');
+const { createSafeItoEnvironment } = require('./lib/ito-environment');
 
 const COMMANDS = {
   install: {
@@ -24,6 +26,10 @@ const COMMANDS = {
   'control-pane': {
     script: 'control-pane.js',
     description: 'Run the local ECC2 operator control pane',
+  },
+  ito: {
+    script: 'ito.js',
+    description: 'Invoke the separately installed canonical Itô compute CLI',
   },
   'install-plan': {
     script: 'install-plan.js',
@@ -85,6 +91,7 @@ const PRIMARY_COMMANDS = [
   'catalog',
   'consult',
   'control-pane',
+  'ito',
   'list-installed',
   'doctor',
   'repair',
@@ -119,6 +126,9 @@ Compatibility:
 Global Flags:
   --dry-run          Preview actions without executing (sets ECC_DRY_RUN=1)
 
+Compute:
+  ${getComputeSponsorCopy()}
+
 Examples:
   ecc typescript
   ecc install --profile developer --target claude
@@ -128,6 +138,9 @@ Examples:
   ecc catalog show framework:nextjs
   ecc consult "security reviews"
   ecc control-pane --port 8765
+  ecc ito auth
+  ecc ito find --gpu h200 --count 8 --nodes 1 --gpus-per-node 8 --days 30 --storage-tb 1 --start-window 2099-08-15 --max-rate 3.00 --form-factor bare_metal --contract-type reservation --fabric infiniband --region us-east-1
+  ecc ito status --json
   ecc list-installed --json
   ecc doctor --target cursor
   ecc repair --dry-run
@@ -219,7 +232,14 @@ function runCommand(commandName, args) {
     [path.join(__dirname, command.script), ...args],
     {
       cwd: process.cwd(),
-      env: process.env,
+      env: commandName === 'ito'
+        ? {
+          ...createSafeItoEnvironment(process.env, {
+            includeControls: true,
+            includeItoRuntime: true,
+          }),
+        }
+        : process.env,
       encoding: 'utf8',
       maxBuffer: 10 * 1024 * 1024,
     }
